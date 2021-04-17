@@ -1,6 +1,6 @@
 class CurrentUser {
 
-  static String username = '';
+  static String uid = '';
   static String email = '';
 
 }

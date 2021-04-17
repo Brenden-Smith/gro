@@ -24,6 +24,8 @@ class _SignInState extends State<SignIn> {
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
 
+  String error = '';
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 SizedBox(height: 15),
                 Form(
+                  key: _formKey,
                   child: Column(
                     children: <Widget>[
                       
@@ -59,9 +62,6 @@ class _SignInState extends State<SignIn> {
                         validator: (value) {
                           return (value == null ? "You must enter your email" : null);
                         },
-                        onChanged: (val) {
-                          setState(() => _email.text = val);
-                        }
                       ),
 
                       // Password
@@ -74,9 +74,6 @@ class _SignInState extends State<SignIn> {
                         validator: (value) {
                           return (value.isEmpty ? "You must enter your password" : null);
                         },
-                        onChanged: (val) {
-                          setState(() => _password.text = val);
-                        }
                       )
                     ]
                   )
@@ -84,25 +81,7 @@ class _SignInState extends State<SignIn> {
                 SizedBox(height: 30),
                 ElevatedButton(
                   child: Text("Sign in"),
-                  onPressed: () {},
-                ),
-                SizedBox(height: 5),
-                ElevatedButton(
-                  child: Text("Sign in with Google"),
-                  onPressed: () {},
-                ),
-                SizedBox(height: 5),
-                ElevatedButton(
-                  child: Text("Sign in anon"),
-                  onPressed: () async {
-                    dynamic result = await _auth.signInAnon();
-                    if (result == null) {
-                      print("Error signing in");
-                    } else {
-                      print("signed in");
-                      print(result);
-                    }
-                  },
+                  onPressed: () => submitAction(),
                 ),
                 Spacer(),
               ]
@@ -131,12 +110,7 @@ class _SignInState extends State<SignIn> {
           final user = userInfoSnapshot.docs[0].data();
 
           print('retrieved user from login');
-          print('username: ' + user['username']);
           print('email: ' + user['email']);
-
-          print('setting current username');
-          CurrentUser.username = user['username'];
-          print('myusername = ' + CurrentUser.username);
         } else {
           setState(() {
             error = 'Incorrect email and/or password.';
@@ -145,4 +119,5 @@ class _SignInState extends State<SignIn> {
         }
       });
     }
+  }
 }

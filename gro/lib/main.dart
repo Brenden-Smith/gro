@@ -19,16 +19,15 @@ void main() async {
 }
 
 class Gro extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gro',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       debugShowCheckedModeBanner: false,
       home: Wrapper(),
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(builder: (ctx) => SignIn());
+      },
     );
   }
 }

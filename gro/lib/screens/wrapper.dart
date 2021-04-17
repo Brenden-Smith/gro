@@ -22,16 +22,17 @@ class Wrapper extends StatelessWidget {
                 if (user == null) {
                   return SignIn();
                 }
-                // if (user['isOnboarding']) {
-                //   return OnBoarding();
-                // } else {
+                if (user['isOnboarding']) {
                   return Home();
-                // }
+                } else {
+                  return Home();
+                }
               }
               return CircularProgressIndicator();
             },
           );
         }
+        return SignIn();
       }
     );
   }
