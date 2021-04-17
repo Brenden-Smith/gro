@@ -22,11 +22,14 @@ class _QuestionState extends State<Question> {
               fontSize: 40,
             ),
           ),
+          SizedBox(
+            height: 180,
+          ),
           Center(
-            child: TextField(
+            child: TextFormField(
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter a search term'),
+                hintText: "Name",
+              ),
             ),
           ),
         ],
