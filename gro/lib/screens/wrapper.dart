@@ -27,12 +27,13 @@ class Wrapper extends StatelessWidget {
                 } else {
                   return Home();
                 }
+                return Home();
               }
               return CircularProgressIndicator();
             },
           );
         }
-        return SignIn();
+        return Home();
       }
     );
   }
