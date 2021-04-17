@@ -7,7 +7,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
+// Files
+import 'screens.dart';
+
 void main() {
+  Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -20,11 +24,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      debugShowCheckedModeBanner: false,
       home: FutureBuilder(
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return new MyHomePage(title: "Gro");
+            return new Wrapper();
           }
         }
       )
