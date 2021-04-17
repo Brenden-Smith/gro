@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gro/screens/question.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,10 +9,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-<<<<<<< Updated upstream
-    return Scaffold(
-      body: Text("Home")
-=======
     final mediaQuery = MediaQuery.of(context);
 
     final pageBody = Container(
@@ -125,16 +122,15 @@ class _HomeState extends State<Home> {
     );
 
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: Colors.white,
-      // ),
-      body: pageBody,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: Colors.green,
-      ),
->>>>>>> Stashed changes
-    );
+        body: pageBody,
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            backgroundColor: Colors.green,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Question()),
+              );
+            }));
   }
 }
