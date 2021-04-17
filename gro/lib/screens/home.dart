@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gro/screens/question.dart';
+import 'package:gro/screens/name_question.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -129,7 +129,7 @@ class _HomeState extends State<Home> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Question()),
+                MaterialPageRoute(builder: (context) => NameQuestion()),
               );
             }));
   }
