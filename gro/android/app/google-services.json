@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "529358597640",
+    "project_id": "gro-beachhacks",
+    "storage_bucket": "gro-beachhacks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529358597640:android:12a0d11a38caa916c86bbd",
+        "android_client_info": {
+          "package_name": "com.beachhacks.gro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "529358597640-gf1o7if37bj8qnefi0l03n1ejj2b30nk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaxZ7KCj6r3c9dzLz5HzDkySqB3hTVkRM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "529358597640-gf1o7if37bj8qnefi0l03n1ejj2b30nk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+// Firebase stuff
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -9,11 +16,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Gro',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TestPage(),
+      home: FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return new MyHomePage(title: "Gro");
+          }
+        }
+      )
     );
   }
 }
