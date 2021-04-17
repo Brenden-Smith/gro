@@ -1,3 +1,12 @@
+// Firebase stuff
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+
+import '../../models.dart';
+
 import 'package:flutter/material.dart';
 import '../../services.dart';
 
@@ -8,17 +17,18 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  var loading = false;
+
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
 
-    final AuthService _auth = AuthService();
-
     final mediaQuery = MediaQuery.of(context);
-
-    TextEditingController _email = TextEditingController();
-    TextEditingController _password = TextEditingController();
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -48,6 +58,9 @@ class _SignInState extends State<SignIn> {
                         ),
                         validator: (value) {
                           return (value == null ? "You must enter your email" : null);
+                        },
+                        onChanged: (val) {
+                          setState(() => _email.text = val);
                         }
                       ),
 
@@ -60,6 +73,9 @@ class _SignInState extends State<SignIn> {
                         ),
                         validator: (value) {
                           return (value.isEmpty ? "You must enter your password" : null);
+                        },
+                        onChanged: (val) {
+                          setState(() => _password.text = val);
                         }
                       )
                     ]
@@ -96,4 +112,37 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
+
+  submitAction() async {
+    if (_formKey.currentState.validate()) {
+      setState(() => loading = true);
+      dynamic result = await _auth
+          .login(
+        _email.text,
+        _password.text,
+      )
+          .then((result) async {
+        if (result != null) {
+          /// perform a query to get a snapshot of the user
+          QuerySnapshot userInfoSnapshot =
+              await DatabaseService().getUserByEmail(_email.text);
+
+          /// initialize user object
+          final user = userInfoSnapshot.docs[0].data();
+
+          print('retrieved user from login');
+          print('username: ' + user['username']);
+          print('email: ' + user['email']);
+
+          print('setting current username');
+          CurrentUser.username = user['username'];
+          print('myusername = ' + CurrentUser.username);
+        } else {
+          setState(() {
+            error = 'Incorrect email and/or password.';
+            loading = false;
+          });
+        }
+      });
+    }
 }

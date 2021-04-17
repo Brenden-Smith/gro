@@ -1,7 +1,6 @@
 class CurrentUser {
 
-  final String uid;
+  static String username = '';
+  static String email = '';
 
-  CurrentUser({ this.uid });
-  
 }
