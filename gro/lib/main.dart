@@ -28,6 +28,7 @@ class Gro extends StatelessWidget {
       routes: {
         Home.routeName: (ctx) => Home(),
         NameQuestion.routeName: (ctx) => NameQuestion(),
+        OwnedPlant.routeName: (ctx) => OwnedPlant(),
         PlantSearch.routeName: (ctx) => PlantSearch(),
         PlantDesc.routeName: (ctx) => PlantDesc(),
         Register.routeName: (ctx) => Register(),
