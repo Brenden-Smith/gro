@@ -22,29 +22,51 @@ class _JournalEntryViewState extends State<JournalEntryView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("${DateTime.parse(widget.date.toDate().toString())}"),
+        title: Container(
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.date_range),
+              SizedBox(width: 7),
+              Text("${DateFormat.yMMMd().format(DateTime.parse(widget.date.toDate().toString()))}"),
+            ],
+          ),
+        ),
+        backgroundColor: Colors.green,
+        elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 15),
-            Container(
-              height: 50,
+      backgroundColor: Colors.green,
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        height: mediaQuery.size.height - mediaQuery.padding.top,
+        padding: EdgeInsets.all(30),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 15),
+              Container(
+                height: 50,
+                width: mediaQuery.size.width,
+                child: Text('${widget.title}',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(height: 15),
+              Container(
               width: mediaQuery.size.width,
-              child: Text('Title: ${widget.title}',
+              child: Text('${widget.content}',
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 25),
+                  style: TextStyle(fontSize: 20),
               ),
             ),
-            SizedBox(height: 15),
-            Container(
-            width: mediaQuery.size.width,
-            child: Text('${widget.content}',
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 20),
-            ),
-          ),
-          ]
+            ]
+          )
         )
       )
     );

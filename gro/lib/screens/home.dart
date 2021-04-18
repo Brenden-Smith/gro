@@ -85,7 +85,7 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OwnedPlant(rid: plant.id)));
+                            builder: (context) => OwnedPlant(rid: plant.id)));
                       },
                       child: Ink(
                         child: Column(

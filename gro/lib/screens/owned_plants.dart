@@ -129,7 +129,7 @@ class _OwnedPlantState extends State<OwnedPlant> {
                       children: <Widget>[
                         img,
                         SizedBox(height: 15),
-                        Text("${name}", style: TextStyle(fontSize: 25)),
+                        FittedBox(child: Text("${name}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25))),
                         SizedBox(height: 5),
                         Text("${commonName}",
                             style: TextStyle(
@@ -182,9 +182,9 @@ class _OwnedPlantState extends State<OwnedPlant> {
             Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => JournalPage(rid1: plantId)))
+                        builder: (context) => JournalPage(rid1: widget.rid)))
                 .then((value) {
-              fetchUserJournal(uid, plantId);
+              fetchUserJournal(uid, widget.rid);
             });
           }),
     );
