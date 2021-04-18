@@ -108,56 +108,70 @@ class _OwnedPlantState extends State<OwnedPlant> {
         elevation: 0,
       ),
       backgroundColor: Colors.green,
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
+      body: Container(
+        decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
             ),
           ),
-          padding: EdgeInsets.all(30),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                        height: 170,
-                        padding: EdgeInsets.only(left: 15),
-                        child: Column(children: <Widget>[
-                          Text("Water this plant every X days"),
-                          Spacer(),
-                          Center(
-                            child: Row(children: <Widget>[
-                              ElevatedButton(
-                                child: Text("Water"),
-                                onPressed: () {},
-                              ),
-                              Spacer(),
-                              ElevatedButton(
-                                child: Text("Edit"),
-                                onPressed: () {},
-                              ),
-                            ]),
-                          ),
-                        ])),
-                    Spacer(),
-                  ],
-                ),
-                SizedBox(height: 30),
-                Container(
-                  width: mediaQuery.size.width,
-                  child:
-                      Text("Journal Entries", style: TextStyle(fontSize: 30)),
-                ),
-                SizedBox(height: 15),
-                Container(
-                    height: 350,
-                    child: SingleChildScrollView(child: journalList)),
-              ],
-            ),
+        padding: EdgeInsets.all(30),
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Container(
+                    height: 170,
+                    width: 100,
+                    child: Column(
+                      children: <Widget>[
+                        img,
+                        SizedBox(height: 15),
+                        Text("${name}", style: TextStyle(fontSize: 25)),
+                        SizedBox(height: 5),
+                        Text("${commonName}",
+                            style: TextStyle(
+                                color: Colors.grey[500],
+                                fontStyle: FontStyle.italic,
+                                fontSize: 15)),
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                      width: 200,
+                      height: 170,
+                      padding: EdgeInsets.only(left: 15),
+                      child: Column(children: <Widget>[
+                        Text("Water this plant every X days"),
+                        Spacer(),
+                        Center(
+                          child: Row(children: <Widget>[
+                            ElevatedButton(
+                              child: Text("Water"),
+                              onPressed: () {},
+                            ),
+                            Spacer(),
+                            ElevatedButton(
+                              child: Text("Edit"),
+                              onPressed: () {},
+                            ),
+                          ]),
+                        ),
+                      ])),
+                  Spacer(),
+                ],
+              ),
+              SizedBox(height: 30),
+              Container(
+                width: mediaQuery.size.width,
+                child: Text("Journal Entries", style: TextStyle(fontSize: 30)),
+              ),
+              SizedBox(height: 15),
+              Container(height: 350, child: SingleChildScrollView(child: journalList)),
+            ],
           ),
         ),
       ),

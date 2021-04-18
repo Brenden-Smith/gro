@@ -82,8 +82,10 @@ class _HomeState extends State<Home> {
                     }
                     return InkWell(
                       onTap: () {
-                        Navigator.of(context).pushNamed(OwnedPlant.routeName,
-                            arguments: plant.id);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OwnedPlant(rid: plant.id)));
                       },
                       child: Ink(
                         child: Column(
@@ -124,7 +126,6 @@ class _HomeState extends State<Home> {
             width: mediaQuery.size.width,
             padding: const EdgeInsets.all(30),
             child: Column(children: <Widget>[
-              SizedBox(height: mediaQuery.padding.top),
               Container(
                 width: mediaQuery.size.width,
               ),
