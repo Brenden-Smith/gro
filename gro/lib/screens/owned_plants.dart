@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../services.dart';
+import '../screens.dart';
 
 class OwnedPlant extends StatefulWidget {
 
@@ -193,7 +194,9 @@ class _OwnedPlantState extends State<OwnedPlant> {
         ),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => JournalEntryView(date: entry['date'], title: entry['title'], content: entry['content'])));
+        },
         child: Row(
           children: <Widget>[
             Expanded(
