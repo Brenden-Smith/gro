@@ -1,47 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:gro/screens/survey/plant_search.dart';
+import '../../models.dart';
 
 class WaterQuestion extends StatefulWidget {
+  static const routeName = '/water-question';
+  PlantEntry entry;
+
+  WaterQuestion({ this.entry });
   @override
   _WaterQuestionState createState() => _WaterQuestionState();
 }
 
 class _WaterQuestionState extends State<WaterQuestion> {
+
+  TextEditingController _water = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+
     final pageBody = Container(
       height: (mediaQuery.size.height - mediaQuery.padding.top),
       width: mediaQuery.size.width,
       padding: const EdgeInsets.all(30),
       child: Column(
         children: <Widget>[
-          Text(
-            "How often do you want to water your plant?",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 40,
-            ),
-          ),
-          SizedBox(
-            height: 180,
-          ),
-          Center(
-            child: TextFormField(
-              decoration: InputDecoration(
-                hintText: "Input Here",
+          Container(
+            child: Text(
+              "How often do you want to water your plant?",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 40,
               ),
             ),
           ),
-          TextButton(
-            style: TextButton.styleFrom(
-              primary: Colors.blue,
-              onSurface: Colors.red,
+          Spacer(),
+          Container(
+            height: 50,
+            child: Form(
+              key: _formKey,
+              child: Container(
+                height: 50,
+                child: TextFormField(
+                  controller: _water,
+                  decoration: InputDecoration(
+                    hintText: "Days",
+                  ),
+                  validator: (val) => val.isEmpty ? 'This field is required' : null,
+                ),
+              ),
             ),
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => PlantSearch())),
-            child: Text('Next'),
-          )
+          ),
+          Spacer(flex: 2),
+          Container(
+            child: ElevatedButton(
+              onPressed: () { 
+                if (_formKey.currentState.validate()) {
+                  widget.entry.setDaysToWater(int.parse(_water.text));
+                }
+              },
+              child: Text('Next'),
+            ),
+          ),
         ],
       ),
     );
@@ -50,11 +71,7 @@ class _WaterQuestionState extends State<WaterQuestion> {
       body: pageBody,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        backgroundColor: Colors.green,
       ),
     );
   }
