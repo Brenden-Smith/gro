@@ -104,18 +104,19 @@ class _OwnedPlantState extends State<OwnedPlant> {
 
     return Scaffold(
       appBar: AppBar(
+        title: Text("My Plant"),
         backgroundColor: Colors.green,
         elevation: 0,
       ),
       backgroundColor: Colors.green,
       body: Container(
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            ),
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
           ),
+        ),
         padding: EdgeInsets.all(30),
         child: Center(
           child: Column(
@@ -149,14 +150,30 @@ class _OwnedPlantState extends State<OwnedPlant> {
                         Spacer(),
                         Center(
                           child: Row(children: <Widget>[
-                            ElevatedButton(
-                              child: Text("Water"),
-                              onPressed: () {},
+                            ButtonTheme(
+                              minWidth: 80,
+                              height: 40,
+                              child: RaisedButton(
+                                onPressed: () {},
+                                color: Colors.green,
+                                child: Text(
+                                  "Water",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
                             ),
                             Spacer(),
-                            ElevatedButton(
-                              child: Text("Edit"),
-                              onPressed: () {},
+                            ButtonTheme(
+                              minWidth: 80,
+                              height: 40,
+                              child: RaisedButton(
+                                onPressed: () {},
+                                color: Colors.green,
+                                child: Text(
+                                  "Edit",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
                             ),
                           ]),
                         ),
@@ -170,14 +187,16 @@ class _OwnedPlantState extends State<OwnedPlant> {
                 child: Text("Journal Entries", style: TextStyle(fontSize: 30)),
               ),
               SizedBox(height: 15),
-              Container(height: 350, child: SingleChildScrollView(child: journalList)),
+              Container(
+                  height: 350,
+                  child: SingleChildScrollView(child: journalList)),
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add, color: Colors.green),
-          backgroundColor: Colors.white,
+          child: Icon(Icons.add, color: Colors.white),
+          backgroundColor: Colors.green,
           onPressed: () {
             Navigator.push(
                     context,
@@ -203,7 +222,13 @@ class _OwnedPlantState extends State<OwnedPlant> {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => JournalEntryView(date: entry['date'], title: entry['title'], content: entry['content'])));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => JournalEntryView(
+                      date: entry['date'],
+                      title: entry['title'],
+                      content: entry['content'])));
         },
         child: Row(
           children: <Widget>[

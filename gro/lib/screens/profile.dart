@@ -88,16 +88,18 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
+        backgroundColor: Colors.green,
         title: Text(
           "Profile",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.logout,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () async {
               await _auth.logout();
@@ -106,68 +108,77 @@ class _ProfileState extends State<Profile> {
         ],
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.white,
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Spacer(),
-              Text(
-                "EMAIL",
-                style: TextStyle(color: Colors.black, letterSpacing: 5),
-              ),
-              TextFormField(
-                controller: _email,
-                validator: (val) => val.isEmpty ? "Enter your email" : null,
-              ),
-              SizedBox(height: 60),
-              Text(
-                "PASSWORD",
-                style: TextStyle(color: Colors.black, letterSpacing: 5),
-              ),
-              TextFormField(
-                controller: _password,
-                obscureText: true,
-                validator: (val) => val.isEmpty ? "Enter your password" : null,
-              ),
-              SizedBox(height: 60),
-              Center(
-                child: ButtonTheme(
-                  minWidth: 115,
-                  height: 40,
-                  child: RaisedButton(
-                    color: Colors.green,
-                    onPressed: () => submitAction(context),
-                    child: Text(
-                      "Save",
-                      style: TextStyle(color: Colors.white),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Spacer(),
+                Text(
+                  "EMAIL",
+                  style: TextStyle(color: Colors.black, letterSpacing: 5),
+                ),
+                TextFormField(
+                  controller: _email,
+                  validator: (val) => val.isEmpty ? "Enter your email" : null,
+                ),
+                SizedBox(height: 60),
+                Text(
+                  "PASSWORD",
+                  style: TextStyle(color: Colors.black, letterSpacing: 5),
+                ),
+                TextFormField(
+                  controller: _password,
+                  obscureText: true,
+                  validator: (val) =>
+                      val.isEmpty ? "Enter your password" : null,
+                ),
+                SizedBox(height: 60),
+                Center(
+                  child: ButtonTheme(
+                    minWidth: 115,
+                    height: 40,
+                    child: RaisedButton(
+                      color: Colors.green,
+                      onPressed: () => submitAction(context),
+                      child: Text(
+                        "Save",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Center(
-                child: ButtonTheme(
-                  minWidth: 40,
-                  height: 40,
-                  child: RaisedButton(
-                    onPressed: () => deleteAccountDialog(),
-                    color: Colors.green,
-                    child: Text(
-                      "Delete Account",
-                      style: TextStyle(color: Colors.white),
+                SizedBox(height: 10),
+                Center(
+                  child: ButtonTheme(
+                    minWidth: 40,
+                    height: 40,
+                    child: RaisedButton(
+                      onPressed: () => deleteAccountDialog(),
+                      color: Colors.green,
+                      child: Text(
+                        "Delete Account",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Spacer(),
-              Center(child: Text("This application is powered by trefle.io")),
-              Spacer(),
-            ],
+                Spacer(),
+                Center(child: Text("This application is powered by trefle.io")),
+                Spacer(),
+              ],
+            ),
           ),
         ),
       ),
@@ -176,14 +187,12 @@ class _ProfileState extends State<Profile> {
 
   submitAction(BuildContext context) async {
     if (_formKey.currentState.validate()) {
-      final emailValid =
-          await DatabaseService().checkEmail(_email.text);
+      final emailValid = await DatabaseService().checkEmail(_email.text);
 
       dynamic user = await DatabaseService()
           .getUserData(FirebaseAuth.instance.currentUser.uid);
 
-      if (user.get(FieldPath(['email'])) != _email.text &&
-          !emailValid) {
+      if (user.get(FieldPath(['email'])) != _email.text && !emailValid) {
         setState(() {
           error = 'Email is taken';
         });
