@@ -135,6 +135,7 @@ class _ProfileState extends State<Profile> {
                   minWidth: 115,
                   height: 40,
                   child: RaisedButton(
+                    color: Colors.green,
                     onPressed: () {},
                     child: Text(
                       "Save",
@@ -150,6 +151,7 @@ class _ProfileState extends State<Profile> {
                   height: 40,
                   child: RaisedButton(
                     onPressed: () {},
+                    color: Colors.green,
                     child: Text(
                       "Delete Account",
                       style: TextStyle(color: Colors.white),
