@@ -3,3 +3,4 @@ export './screens/authenticate/authenticate.dart';
 export './screens/wrapper.dart';
 export './screens/home.dart';
 export './screens/profile.dart';
+export './screens/plant_search.dart';
