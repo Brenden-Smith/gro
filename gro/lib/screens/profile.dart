@@ -110,7 +110,7 @@ class _ProfileState extends State<Profile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 60),
+              Spacer(),
               Text(
                 "EMAIL",
                 style: TextStyle(color: Colors.black, letterSpacing: 5),
@@ -157,8 +157,9 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              SizedBox(height: 170),
+              Spacer(),
               Center(child: Text("This application is powered by trefle.io")),
+              Spacer(),
             ],
           ),
         ),
