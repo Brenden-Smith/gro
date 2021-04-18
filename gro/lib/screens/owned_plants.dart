@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gro/screens/journal_page.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ class OwnedPlant extends StatefulWidget {
 }
 
 class _OwnedPlantState extends State<OwnedPlant> {
-
   String plantId;
   dynamic plant;
 
@@ -51,7 +51,6 @@ class _OwnedPlantState extends State<OwnedPlant> {
 
   @override
   Widget build(BuildContext context) {
-
     final mediaQuery = MediaQuery.of(context);
 
     Widget img;
@@ -60,40 +59,38 @@ class _OwnedPlantState extends State<OwnedPlant> {
       img = CircleAvatar(
           radius: 20,
           backgroundColor: Colors.grey,
-          child: Text((name==null) ? '' : name.substring(0, 1),
+          child: Text((name == null) ? '' : name.substring(0, 1),
               style: TextStyle(color: Colors.white, fontSize: 40)));
     } else {
-      img =
-          CircleAvatar(radius: 50, backgroundImage: NetworkImage(imageUrl));
+      img = CircleAvatar(radius: 50, backgroundImage: NetworkImage(imageUrl));
     }
 
-    Widget journalList = Container (
+    Widget journalList = Container(
       height: mediaQuery.size.height - mediaQuery.padding.top,
       padding: const EdgeInsets.only(bottom: 50),
       child: StreamBuilder(
-        stream: journal,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text("Error loading journal entries"));
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.data.docs.length == 0) {
-              return Center(child: Text("You do not have any journal entries"));
-            }
-            return ListView.builder(
-              itemCount: snapshot.data.docs.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                DocumentSnapshot jr = snapshot.data.docs[index];
-                return JournalTile(context, jr);
+          stream: journal,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(child: Text("Error loading journal entries"));
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.data.docs.length == 0) {
+                return Center(
+                    child: Text("You do not have any journal entries"));
               }
-            );
-          } else {
-            return Text('');
-          }
-        } 
-      ),
+              return ListView.builder(
+                  itemCount: snapshot.data.docs.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot jr = snapshot.data.docs[index];
+                    return JournalTile(context, jr);
+                  });
+            } else {
+              return Text('');
+            }
+          }),
     );
 
     return Scaffold(
@@ -116,37 +113,36 @@ class _OwnedPlantState extends State<OwnedPlant> {
                         SizedBox(height: 15),
                         Text("${name}", style: TextStyle(fontSize: 25)),
                         SizedBox(height: 5),
-                        Text("${commonName}", style: TextStyle(color: Colors.grey[500], fontStyle: FontStyle.italic, fontSize: 15)),
+                        Text("${commonName}",
+                            style: TextStyle(
+                                color: Colors.grey[500],
+                                fontStyle: FontStyle.italic,
+                                fontSize: 15)),
                       ],
                     ),
                   ),
                   Spacer(),
                   Container(
-                    width: 200,
-                    height: 170,
-                    padding: EdgeInsets.only(left: 15),
-                    child: Column(
-                      children: <Widget>[
+                      width: 200,
+                      height: 170,
+                      padding: EdgeInsets.only(left: 15),
+                      child: Column(children: <Widget>[
                         Text("Water this plant every X days"),
                         Spacer(),
                         Center(
-                          child: Row(
-                            children: <Widget>[
-                              ElevatedButton(
-                                child: Text("Water"),
-                                onPressed: () {},
-                              ),
-                              Spacer(),
-                              ElevatedButton(
-                                child: Text("Edit"),
-                                onPressed: () {},
-                              ),
-                            ]
-                          ),
+                          child: Row(children: <Widget>[
+                            ElevatedButton(
+                              child: Text("Water"),
+                              onPressed: () {},
+                            ),
+                            Spacer(),
+                            ElevatedButton(
+                              child: Text("Edit"),
+                              onPressed: () {},
+                            ),
+                          ]),
                         ),
-                      ]
-                    )
-                  ),
+                      ])),
                   Spacer(),
                 ],
               ),
@@ -160,89 +156,93 @@ class _OwnedPlantState extends State<OwnedPlant> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            backgroundColor: Colors.green,
-            onPressed: () {},
+        child: Icon(Icons.add),
+        backgroundColor: Colors.green,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => JournalPage()),
+          );
+        },
       ),
     );
   }
 
   Widget JournalTile(BuildContext context, DocumentSnapshot entry) {
     return Ink(
-        padding: const EdgeInsets.only(),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              width: 1,
-              color: Colors.grey[300],
-            ),
+      padding: const EdgeInsets.only(),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 1,
+            color: Colors.grey[300],
           ),
         ),
-        child: InkWell(
-          onTap: () {},
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          height: 25,
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Text(
-                            (entry['title'].length > 15)
-                                ? '${entry['title']}...'.substring(0, 15) +
-                                    '...'
-                                : '${entry['title']}',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                          padding: const EdgeInsets.only(top: 5),
-                          alignment: Alignment.centerRight,
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                '${DateFormat.yMMMd().format(entry['date'].toDate())}',
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(top: 5),
-                          height: 25,
-                          width: 25,
-                          child: Center(
-                              child: Icon(Icons.arrow_forward_ios,
-                                  color: Colors.grey, size: 15)),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    Container(
-                      height: 30,
-                      padding: const EdgeInsets.only(bottom: 5, right: 5),
-                      child: Text(
-                          (entry['content'].length > 35)
-                              ? '${entry['content'].substring(0, 35)}...'
-                              : '${entry['content']}',
+      ),
+      child: InkWell(
+        onTap: () {},
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        height: 25,
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text(
+                          (entry['title'].length > 15)
+                              ? '${entry['title']}...'.substring(0, 15) + '...'
+                              : '${entry['title']}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
                           textAlign: TextAlign.left,
-                          style: TextStyle(color: Colors.black45, fontSize: 15)),
-                    ),
-                  ],
-                ),
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                        padding: const EdgeInsets.only(top: 5),
+                        alignment: Alignment.centerRight,
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              '${DateFormat.yMMMd().format(entry['date'].toDate())}',
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(top: 5),
+                        height: 25,
+                        width: 25,
+                        child: Center(
+                            child: Icon(Icons.arrow_forward_ios,
+                                color: Colors.grey, size: 15)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Container(
+                    height: 30,
+                    padding: const EdgeInsets.only(bottom: 5, right: 5),
+                    child: Text(
+                        (entry['content'].length > 35)
+                            ? '${entry['content'].substring(0, 35)}...'
+                            : '${entry['content']}',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(color: Colors.black45, fontSize: 15)),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 15),
-              )
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 15),
+            )
+          ],
         ),
+      ),
     );
   }
 }
