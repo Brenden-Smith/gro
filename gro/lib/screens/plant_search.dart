@@ -76,7 +76,7 @@ class _PlantSearchState extends State<PlantSearch> {
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }       
       )
     );
