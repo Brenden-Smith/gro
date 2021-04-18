@@ -48,13 +48,13 @@ class AppTabController extends StatefulWidget {
 }
 
 class _AppTabControllerState extends State<AppTabController> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static List<Widget> _widgetOptions = <Widget>[
-    Text("Index 0"),
+    PlantSearch(isSurvey: false),
     Home(),
     Profile(),
   ];

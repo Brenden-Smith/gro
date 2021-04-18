@@ -8,25 +8,30 @@ import '../../models.dart';
 
 class PlantSearch extends StatefulWidget {
   static const routeName = '/plant_search';
+  bool isSurvey;
+
+  PlantSearch({ this.isSurvey });
+
   @override
   _PlantSearchState createState() => _PlantSearchState();
 }
 
 class _PlantSearchState extends State<PlantSearch> {
-  Future<List<Plant>> queryResults;
+  Stream<List<Plant>> queryResults;
   TextEditingController _query = TextEditingController();
+
+  String searchString;
 
   @override
   void initState() {
     super.initState();
-    queryResults = _searchPlant("rose");
+    queryResults = _searchPlant("");
   }
 
-  Future<List<Plant>> _searchPlant(String q) async {
-    // If query is empty
-    if (q == "") {
-      List<Plant> empty = [];
-      return empty;
+  Stream<List<Plant>> _searchPlant(String q) async* {
+
+    if (q=="") {
+      return;
     }
 
     // API queries
@@ -36,10 +41,10 @@ class _PlantSearchState extends State<PlantSearch> {
     };
 
     // Get info from API
-    final response =
-        await http.get(Uri.https("trefle.io", "/api/v1/plants/search", query));
+    final response = await http.get(Uri.https("trefle.io", "/api/v1/plants/search", query));
 
     // If response code is 200
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final output = new List<Plant>.from(json
           .decode(response.body)['data']
@@ -47,7 +52,7 @@ class _PlantSearchState extends State<PlantSearch> {
       output.sort((a, b) {
         return a.name.toLowerCase().compareTo(b.name.toLowerCase());
       });
-      return output;
+      yield output;
     } else {
       throw Exception("Failed to search");
     }
@@ -74,9 +79,10 @@ class _PlantSearchState extends State<PlantSearch> {
 
     final buildResults = Container(
       height: (mediaQuery.size.height - mediaQuery.padding.top - 125),
-      child: FutureBuilder<List<Plant>>(
-        future: queryResults,
+      child: StreamBuilder<List<Plant>>(
+        stream: queryResults,
         builder: (context, snapshot) {
+           // snapshot.hasData ? _build(snapshot.data) : Center(child: CircularProgressIndicator()), 
           if (snapshot.connectionState != ConnectionState.done) {
             return Center(child: CircularProgressIndicator());
           }
@@ -84,12 +90,16 @@ class _PlantSearchState extends State<PlantSearch> {
             return Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasData) {
-            return _build(snapshot.data);
+            if (snapshot.data.length!=0) {
+              return _build(snapshot.data);
+            } else {
+              return Center(child: Text("There are no items that match your search"));
+            }
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
-          return _build(snapshot.data);
-        }       
+          return Center(child: Text("Enter a search query in the search bar"));
+        }          
       )
     );
 
@@ -97,11 +107,10 @@ class _PlantSearchState extends State<PlantSearch> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.green,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+        title: Text(
+          "Compendium",
+          style: TextStyle(color: Colors.white),
         ),
-        title: Text("Search", textAlign: TextAlign.center),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -116,9 +125,9 @@ class _PlantSearchState extends State<PlantSearch> {
                     icon: Icon(Icons.search),
                     hintText: "Search",
                   ),
-                  onSubmitted: (text) async {
+                  onSubmitted: (text) {
                     print("submitted!");
-                    await _searchPlant(text);
+                    queryResults = _searchPlant(text);
                     setState(() {});
                   }
                 ),
@@ -146,7 +155,7 @@ class _PlantSearchState extends State<PlantSearch> {
     }
 
     return new InkWell(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PlantDesc(plant: plant))),
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PlantDesc(plant: plant, isSurvey: widget.isSurvey))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
