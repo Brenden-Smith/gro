@@ -91,12 +91,18 @@ class _ProfileState extends State<Profile> {
       body: SingleChildScrollView(
         child: Container(
           height: mediaQuery.size.height - mediaQuery.padding.top,
-          padding: EdgeInsets.all(25),
+          width: mediaQuery.size.width,
+          padding: const EdgeInsets.all(30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Spacer(),
+              SizedBox(height: mediaQuery.padding.top),
+              Container(
+                width: mediaQuery.size.width,
+                child: Text("Profile", textAlign: TextAlign.left, style: TextStyle(fontSize: 30)),
+              ),
+              Spacer(flex: 10),
               Form(
                 child: Column(
                   children: <Widget>[
@@ -144,15 +150,14 @@ class _ProfileState extends State<Profile> {
                 child: Text("Save"),
                 onPressed: () {},
               ),
-              SizedBox(height: 30),
-              Container(
-                height: 50,
-                child: Text("This application is powered by trefle.io")
-              ),
-              Spacer(),
+              Spacer(flex: 10),
               ElevatedButton(
                 child: Text("Delete Account"),
                 onPressed: () {},
+              ),
+              SizedBox(height: 15),
+              Container(
+                child: Text("This application is powered by trefle.io")
               ),
             ],
           ),
