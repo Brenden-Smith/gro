@@ -82,8 +82,8 @@ class _AppTabControllerState extends State<AppTabController> {
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
+            icon: Icon(Icons.person),
+            label: "Profile",
           ),
         ],
         currentIndex: _selectedIndex,
