@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gro/screens/name_question.dart';
+import 'package:gro/screens/survey/name_question.dart';
+import '../screens.dart';
 
 class Home extends StatefulWidget {
+  static const routeName = '/home';
   @override
   _HomeState createState() => _HomeState();
 }
@@ -73,10 +75,7 @@ class _HomeState extends State<Home> {
             child: Icon(Icons.add),
             backgroundColor: Colors.green,
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NameQuestion()),
-              );
+              Navigator.of(context).pushNamed(PlantSearch.routeName);
             }));
   }
 }

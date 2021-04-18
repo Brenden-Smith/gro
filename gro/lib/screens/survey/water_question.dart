@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gro/screens/plant_search.dart';
+import 'package:gro/screens/survey/plant_search.dart';
 
 class WaterQuestion extends StatefulWidget {
   @override

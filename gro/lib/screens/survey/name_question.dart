@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gro/screens/water_question.dart';
+import 'package:gro/screens/survey/water_question.dart';
 
 class NameQuestion extends StatefulWidget {
   @override

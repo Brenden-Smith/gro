@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../models.dart';
+import '../../screens.dart';
 
 
 
 class PlantSearch extends StatefulWidget {
+  static const routeName = '/plant-search';
   @override
   _PlantSearchState createState() => _PlantSearchState();
 }
