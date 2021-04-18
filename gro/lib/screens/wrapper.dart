@@ -74,12 +74,12 @@ class _AppTabControllerState extends State<AppTabController> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: "Schedule",
+            icon: Icon(Icons.book),
+            label: "Compendium",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
+            icon: Icon(Icons.eco),
+            label: "My Plants",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
