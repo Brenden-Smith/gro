@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gro/screens/water_question.dart';
 
-class Question extends StatefulWidget {
+class NameQuestion extends StatefulWidget {
   @override
-  _QuestionState createState() => _QuestionState();
+  _NameQuestionState createState() => _NameQuestionState();
 }
 
-class _QuestionState extends State<Question> {
+class _NameQuestionState extends State<NameQuestion> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -22,13 +23,24 @@ class _QuestionState extends State<Question> {
               fontSize: 40,
             ),
           ),
+          SizedBox(height: 180),
           Center(
-            child: TextField(
+            child: TextFormField(
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter a search term'),
+                hintText: "Name",
+              ),
             ),
           ),
+          SizedBox(height: 20),
+          TextButton(
+            style: TextButton.styleFrom(
+              primary: Colors.blue,
+              onSurface: Colors.red,
+            ),
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => WaterQuestion())),
+            child: Text('Next'),
+          )
         ],
       ),
     );

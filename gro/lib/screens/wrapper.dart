@@ -5,37 +5,40 @@ import 'package:provider/provider.dart';
 import '../services.dart';
 import '../screens.dart';
 import '../models.dart';
+import 'home.dart';
 
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data != null) {
-          return StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('users').doc(snapshot.data.uid).snapshots(),
-            builder: (ctx, ss) {
-              if (ss.hasData && ss.data != null) {
-                final userDoc = ss.data;
-                final user = userDoc.data();
-                if (user == null) {
-                  return SignIn();
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(snapshot.data.uid)
+                  .snapshots(),
+              builder: (ctx, ss) {
+                if (ss.hasData && ss.data != null) {
+                  final userDoc = ss.data;
+                  final user = userDoc.data();
+                  if (user == null) {
+                    return SignIn();
+                  }
+                  // if (user['isOnboarding']) {
+                  //   return Home();
+                  // } else {
+                  //   return Home();
+                  // }
+                  return AppTabController();
                 }
-                // if (user['isOnboarding']) {
-                //   return Home();
-                // } else {
-                //   return Home();
-                // }
-                return AppTabController();
-              }
-              return CircularProgressIndicator();
-            },
-          );
-        }
-        return SignIn();
-      }
-    );
+                return CircularProgressIndicator();
+              },
+            );
+          }
+          return SignIn();
+        });
   }
 }
 
@@ -45,7 +48,6 @@ class AppTabController extends StatefulWidget {
 }
 
 class _AppTabControllerState extends State<AppTabController> {
-
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =
@@ -66,7 +68,6 @@ class _AppTabControllerState extends State<AppTabController> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,16 +77,16 @@ class _AppTabControllerState extends State<AppTabController> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home 1",
+            icon: Icon(Icons.calendar_today),
+            label: "Schedule",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: "Home 2",
+            label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home 3",
+            icon: Icon(Icons.settings),
+            label: "Settings",
           ),
         ],
         currentIndex: _selectedIndex,
