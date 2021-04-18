@@ -91,53 +91,65 @@ class _JournalPageState extends State<JournalPage> {
           ],
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(30),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  style: TextStyle(
-                    color: Colors.black,
+          //padding: const EdgeInsets.all(30),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+            ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                      hintText: '   Title',
+                      hintStyle: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please create a title';
+                      }
+                      return null;
+                    },
                   ),
-                  controller: _titleController,
-                  decoration: InputDecoration(
-                    hintText: 'Title',
-                    hintStyle: TextStyle(
-                      color: Colors.green,
+                  Container(
+                    height: 670,
+                    child: TextFormField(
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                      decoration: const InputDecoration(
+                        hintText: '   Journal',
+                        hintStyle: TextStyle(
+                          color: Colors.green,
+                        ),
+                        border: InputBorder.none,
+                      ),
+                      controller: _journalController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please create a write something in the journal';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please create a title';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  decoration: const InputDecoration(
-                    hintText: 'Journal',
-                    hintStyle: TextStyle(
-                      color: Colors.green,
-                    ),
-                    border: InputBorder.none,
-                  ),
-                  controller: _journalController,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please create a write something in the journal';
-                    }
-                    return null;
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ));
