@@ -42,8 +42,8 @@ class _HomeState extends State<Home> {
 
     final plantList = Container(
       height: (mediaQuery.size.height - mediaQuery.padding.top),
-        padding: const EdgeInsets.only(bottom: 50),
-        child: StreamBuilder(
+      padding: const EdgeInsets.only(bottom: 50),
+      child: StreamBuilder(
           stream: plants,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -57,81 +57,88 @@ class _HomeState extends State<Home> {
                 return Center(child: Text("You do not have any plants."));
               }
               return GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 30,
-                  mainAxisSpacing: 30,
-                ),
-                itemCount: snapshot.data.docs.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext txt, index) {
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 30,
+                    mainAxisSpacing: 30,
+                  ),
+                  itemCount: snapshot.data.docs.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext txt, index) {
+                    Widget img;
+                    DocumentSnapshot plant = snapshot.data.docs[index];
 
-                  Widget img;
-                  DocumentSnapshot plant = snapshot.data.docs[index];
-
-                  if (plant['image'] == "null") {
-                    img = CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.grey,
-                        child: Text(plant['plant_name'].substring(0, 1),
-                            style: TextStyle(color: Colors.white, fontSize: 40)));
-                  } else {
-                    img =
-                        CircleAvatar(radius: 20, backgroundImage: NetworkImage(plant['image']));
-                  }
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OwnedPlant(rid: plant.id)),
-                        );
-                    },
-                    child: Ink(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
+                    if (plant['image'] == "null") {
+                      img = CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.grey,
+                          child: Text(plant['plant_name'].substring(0, 1),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 40)));
+                    } else {
+                      img = CircleAvatar(
+                          radius: 20,
+                          backgroundImage: NetworkImage(plant['image']));
+                    }
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(OwnedPlant.routeName,
+                            arguments: plant.id);
+                      },
+                      child: Ink(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: img,
                             ),
-                            child: img,
-                          ),
-                          SizedBox(height: 15),
-                          Text("${plant['plant_name']}"),
-                        ],
+                            SizedBox(height: 15),
+                            Text("${plant['plant_name']}"),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }
-              );
+                    );
+                  });
             } else {
               return Text('');
             }
-          }
-        ),
-      );
+          }),
+    );
 
-
-    final pageBody = Container(
-        height: (mediaQuery.size.height - mediaQuery.padding.top),
-        width: mediaQuery.size.width,
-        padding: const EdgeInsets.all(30),
-        child: Column(children: <Widget>[
-          SizedBox(height: mediaQuery.padding.top),
-          Container(
+    final pageBody = SingleChildScrollView(
+        child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
+            ),
+            height: (mediaQuery.size.height - mediaQuery.padding.top),
             width: mediaQuery.size.width,
-            child: Text("My Plants",
-                textAlign: TextAlign.left, style: TextStyle(fontSize: 30)),
-          ),
-          Expanded(child: plantList),
-        ]));
+            padding: const EdgeInsets.all(30),
+            child: Column(children: <Widget>[
+              SizedBox(height: mediaQuery.padding.top),
+              Container(
+                width: mediaQuery.size.width,
+              ),
+              Expanded(child: plantList),
+            ])));
 
     return Scaffold(
         body: pageBody,
+        backgroundColor: Colors.green,
+        appBar: AppBar(
+          backgroundColor: Colors.green,
+          title: Text("My Plants"),
+          elevation: 0,
+        ),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
             backgroundColor: Colors.green,

@@ -8,14 +8,13 @@ import '../services.dart';
 class JournalPage extends StatefulWidget {
   String rid1;
 
-  JournalPage({ this.rid1 });
+  JournalPage({this.rid1});
 
   @override
   _JournalPageState createState() => _JournalPageState();
 }
 
 class _JournalPageState extends State<JournalPage> {
-
   final _formKey = GlobalKey<FormState>();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _journalController = TextEditingController();
@@ -35,8 +34,9 @@ class _JournalPageState extends State<JournalPage> {
   }
 
   fetchUserData() async {
-    dynamic user = await DatabaseService().getUserData(FirebaseAuth.instance.currentUser.uid);
-    if (user==null) {
+    dynamic user = await DatabaseService()
+        .getUserData(FirebaseAuth.instance.currentUser.uid);
+    if (user == null) {
       setState(() {
         email = "Email";
       });
@@ -50,6 +50,7 @@ class _JournalPageState extends State<JournalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.green,
         appBar: AppBar(
           backgroundColor: Colors.green,
           elevation: 0,
@@ -69,7 +70,9 @@ class _JournalPageState extends State<JournalPage> {
               ),
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
-                  JournalEntry entry = new JournalEntry(title: _titleController.text, content: _journalController.text);
+                  JournalEntry entry = new JournalEntry(
+                      title: _titleController.text,
+                      content: _journalController.text);
                   DatabaseService()
                       .createJournalEntry(
                         widget.rid1,
