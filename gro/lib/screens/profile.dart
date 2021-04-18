@@ -27,7 +27,8 @@ class _ProfileState extends State<Profile> {
   }
 
   void fetchUserData() async {
-    dynamic user = await DatabaseService().getUserData(FirebaseAuth.instance.currentUser.uid);
+    dynamic user = await DatabaseService()
+        .getUserData(FirebaseAuth.instance.currentUser.uid);
 
     if (user == null) {
       setState(() {
@@ -35,7 +36,7 @@ class _ProfileState extends State<Profile> {
         _password.text = "Password";
       });
     } else {
-      setState (() {
+      setState(() {
         _email.text = user.get(FieldPath(['email']));
         _password.text = user.get(FieldPath(['password']));
       });
@@ -84,85 +85,160 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-
-    final mediaQuery = MediaQuery.of(context);
-
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: mediaQuery.size.height - mediaQuery.padding.top,
-          width: mediaQuery.size.width,
-          padding: const EdgeInsets.all(30),
+      appBar: AppBar(
+        title: Text(
+          "Profile",
+          style: TextStyle(color: Colors.black),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.logout,
+              color: Colors.black,
+            ),
+            onPressed: () {},
+          ),
+        ],
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.white,
+      ),
+      body: Container(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: mediaQuery.padding.top),
-              Container(
-                width: mediaQuery.size.width,
-                child: Text("Profile", textAlign: TextAlign.left, style: TextStyle(fontSize: 30)),
+              SizedBox(height: 60),
+              Text(
+                "EMAIL",
+                style: TextStyle(color: Colors.black, letterSpacing: 5),
               ),
-              Spacer(flex: 10),
-              Form(
-                child: Column(
-                  children: <Widget>[
-
-                    // Email
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          child: Text("Email"),
-                        ),
-                        SizedBox(width: 15),
-                        Expanded(
-                          child: TextFormField(
-                            controller: _email,
-                            validator: (val) => val.isEmpty ? "Enter your email" : null,
-                          ),
-                        ),
-                      ],
+              TextFormField(
+                controller: _password,
+                obscureText: true,
+                validator: (val) => val.isEmpty ? "Enter your email" : null,
+              ),
+              SizedBox(height: 60),
+              Text(
+                "PASSWORD",
+                style: TextStyle(color: Colors.black, letterSpacing: 5),
+              ),
+              TextFormField(
+                controller: _email,
+                validator: (val) => val.isEmpty ? "Enter your password" : null,
+              ),
+              SizedBox(height: 60),
+              Center(
+                child: ButtonTheme(
+                  minWidth: 115,
+                  height: 40,
+                  child: RaisedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Save",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    
-                    
-                    // Password
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          child: Text("Password"),
-                        ),
-                        SizedBox(width: 15),
-                        Expanded(
-                          child: TextFormField(
-                            controller: _password,
-                            obscureText: true,
-                            validator: (val) => val.isEmpty ? "Enter your password" : null,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
-              SizedBox(height: 30),
-              ElevatedButton(
-                child: Text("Save"),
-                onPressed: () {},
+              SizedBox(height: 10),
+              Center(
+                child: ButtonTheme(
+                  minWidth: 40,
+                  height: 40,
+                  child: RaisedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Delete Account",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
               ),
-              Spacer(flex: 10),
-              ElevatedButton(
-                child: Text("Delete Account"),
-                onPressed: () {},
-              ),
-              SizedBox(height: 15),
-              Container(
-                child: Text("This application is powered by trefle.io")
-              ),
+              SizedBox(height: 170),
+              Center(child: Text("This application is powered by trefle.io")),
             ],
           ),
-        )
-      )
+        ),
+      ),
     );
+    // final mediaQuery = MediaQuery.of(context);
+
+    // return Scaffold(
+    //     body: SingleChildScrollView(
+    //         child: Container(
+    //   height: mediaQuery.size.height - mediaQuery.padding.top,
+    //   width: mediaQuery.size.width,
+    //   padding: const EdgeInsets.all(30),
+    //   child: Column(
+    //     mainAxisAlignment: MainAxisAlignment.center,
+    //     crossAxisAlignment: CrossAxisAlignment.center,
+    //     children: <Widget>[
+    //       SizedBox(height: mediaQuery.padding.top),
+    //       Container(
+    //         width: mediaQuery.size.width,
+    //         child: Text("Profile",
+    //             textAlign: TextAlign.left, style: TextStyle(fontSize: 30)),
+    //       ),
+    //       Spacer(flex: 10),
+    //       Form(
+    //         child: Column(
+    //           children: <Widget>[
+    //             // Email
+    //             Row(
+    //               children: <Widget>[
+    //                 Container(
+    //                   width: 100,
+    //                   child: Text("Email"),
+    //                 ),
+    //                 SizedBox(width: 15),
+    //                 Expanded(
+    //                   child: TextFormField(
+    //                     controller: _email,
+    //                     validator: (val) =>
+    //                         val.isEmpty ? "Enter your email" : null,
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+
+    //             // Password
+    //             Row(
+    //               children: <Widget>[
+    //                 Container(
+    //                   width: 100,
+    //                   child: Text("Password"),
+    //                 ),
+    //                 SizedBox(width: 15),
+    //                 Expanded(
+    //                   child: TextFormField(
+    //                     controller: _password,
+    //                     obscureText: true,
+    //                     validator: (val) =>
+    //                         val.isEmpty ? "Enter your password" : null,
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //       SizedBox(height: 30),
+    //       ElevatedButton(
+    //         child: Text("Save"),
+    //         onPressed: () {},
+    //       ),
+    //       Spacer(flex: 10),
+    //       ElevatedButton(
+    //         child: Text("Delete Account"),
+    //         onPressed: () {},
+    //       ),
+    //       SizedBox(height: 15),
+    //       Container(child: Text("This application is powered by trefle.io")),
+    //     ],
+    //   ),
+    // )));
   }
 }
