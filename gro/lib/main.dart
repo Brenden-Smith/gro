@@ -26,9 +26,11 @@ class Gro extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: AppTabController(),
       routes: {
-        SignIn.routeName: (ctx) => SignIn(),
         Home.routeName: (ctx) => Home(),
+        NameQuestion.routeName: (ctx) => NameQuestion(),
         PlantSearch.routeName: (ctx) => PlantSearch(),
+        PlantDesc.routeName: (ctx) => PlantDesc(),
+        SignIn.routeName: (ctx) => SignIn(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (ctx) => SignIn());

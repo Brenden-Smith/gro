@@ -4,6 +4,7 @@ class PlantEntry {
     Plant plant;
     String name;
     int daysToWater;
+    DateTime dateCreated;
 
     PlantEntry({ this.plant });
 
@@ -14,4 +15,9 @@ class PlantEntry {
     void setDaysToWater(int n) {
       this.daysToWater = n;
     }
+
+    void setDateCreated(DateTime d) {
+      this.dateCreated = d;
+    }
+
 }

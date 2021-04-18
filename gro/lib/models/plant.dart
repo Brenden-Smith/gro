@@ -8,7 +8,6 @@ class Plant {
   Plant({ this.id, this.name, this.scientificName, this.image});
 
   factory Plant.fromJson(Map<String, dynamic> json) {
-    print("Created plant object");
     return new Plant(
       id: json['id'],
       name: json['common_name'].toString(),
@@ -16,5 +15,4 @@ class Plant {
       image: json['image_url'].toString(),
     );
   }
-
 }
