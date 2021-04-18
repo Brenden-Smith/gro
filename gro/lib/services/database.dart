@@ -75,7 +75,13 @@ class DatabaseService {
       'plant_common': entry.plant.name,
       'plant_science': entry.plant.scientificName,
       'daysToWater': entry.daysToWater,
+      'lastWatered': DateTime.now(),
     });
+  }
+
+  // Water plant
+  Future<void> waterPlant(String rid) {
+    return plants.doc(rid).update({'lastWatered': DateTime.now()});
   }
 
   // Delete plant

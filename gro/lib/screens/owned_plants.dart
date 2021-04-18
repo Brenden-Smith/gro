@@ -19,6 +19,7 @@ class OwnedPlant extends StatefulWidget {
 class _OwnedPlantState extends State<OwnedPlant> {
   String plantId;
   DocumentSnapshot plant;
+  int days;
 
   Stream journal;
 
@@ -33,6 +34,7 @@ class _OwnedPlantState extends State<OwnedPlant> {
     print(widget.rid);
     fetchUserJournal(uid, widget.rid);
     setValues(widget.rid);
+    
   }
 
   fetchPlant() {}
@@ -44,6 +46,9 @@ class _OwnedPlantState extends State<OwnedPlant> {
       name = plant.get(FieldPath(['plant_name']));
       commonName = plant.get(FieldPath(['plant_common']));
       imageUrl = plant.get(FieldPath(['image']));
+      Timestamp ts = plant.get(FieldPath(['lastWatered']));
+      int dtw = plant.get(FieldPath(['daysToWater']));
+      days = dtw - (DateTime.now().difference(DateTime.parse(ts.toDate().toString())).inDays);
     });
   }
 
@@ -91,6 +96,10 @@ class _OwnedPlantState extends State<OwnedPlant> {
       ),
     );
   }
+
+  waterPlantSnackbar() {
+      return SnackBar(content: Text("Yay! You watered ${name}!"));
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +209,8 @@ class _OwnedPlantState extends State<OwnedPlant> {
                       height: 170,
                       padding: EdgeInsets.only(left: 15),
                       child: Column(children: <Widget>[
-                        Text("Water this plant every X days"),
+                        Text("Water this plant every ${plant.get(FieldPath(['daysToWater']))} days"),
+                        Text("That means you need to water it in ${days} days"),
                         Spacer(),
                         Center(
                           child: Row(children: <Widget>[
@@ -208,7 +218,11 @@ class _OwnedPlantState extends State<OwnedPlant> {
                               minWidth: 80,
                               height: 40,
                               child: RaisedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  DatabaseService().waterPlant(plantId);
+                                  waterPlantSnackbar();
+                                  setState(() {});
+                                },
                                 color: Colors.green,
                                 child: Text(
                                   "Water",
