@@ -90,4 +90,28 @@ class DatabaseService {
     }
   }
 
+  // Create journal entry
+  Future<void> createJournalEntry(String rid1, String rid2, String uid, String email, JournalEntry entry, DateTime date) async {
+    return await plants.doc(rid1).collection('journal').doc(rid2).set({
+      'uid': uid,
+      'email': email,
+      'date': date,
+      'title': entry.title,
+      'content': entry.content,
+    });
+  }
+
+  // Get user's journal
+  Future<Stream<QuerySnapshot>> getUsersJournal(String uid, String rid) async {
+    return plants.doc(rid).collection('journal').where('uid', isEqualTo: uid).snapshots();
+  }
+
+  getJournal(String rid1, String rid2) async {
+    try {
+      return await plants.doc(rid1).collection('journal').doc(rid2).get();
+    } catch (err) {
+      print(err.toString());
+    }
+  }
+
 }
