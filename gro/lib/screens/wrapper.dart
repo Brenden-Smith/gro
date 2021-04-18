@@ -54,11 +54,8 @@ class _AppTabControllerState extends State<AppTabController> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static List<Widget> _widgetOptions = <Widget>[
+    Text("Index 0"),
     Home(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
     Profile(),
   ];
 
