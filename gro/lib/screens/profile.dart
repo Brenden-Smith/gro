@@ -10,16 +10,18 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
   String uid;
+  String error = '';
 
   @override
   void initState() {
     super.initState();
-    // fetchUserID();
-    // fetchUserData();
+    fetchUserID();
+    fetchUserData();
   }
 
   fetchUserID() {
@@ -97,14 +99,17 @@ class _ProfileState extends State<Profile> {
               Icons.logout,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () async {
+              await _auth.logout();
+            },
           ),
         ],
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
       ),
-      body: Container(
+      body: Form(
+        key: _formKey,
         child: Padding(
           padding: EdgeInsets.fromLTRB(30, 40, 30, 0),
           child: Column(
@@ -116,8 +121,7 @@ class _ProfileState extends State<Profile> {
                 style: TextStyle(color: Colors.black, letterSpacing: 5),
               ),
               TextFormField(
-                controller: _password,
-                obscureText: true,
+                controller: _email,
                 validator: (val) => val.isEmpty ? "Enter your email" : null,
               ),
               SizedBox(height: 60),
@@ -126,7 +130,8 @@ class _ProfileState extends State<Profile> {
                 style: TextStyle(color: Colors.black, letterSpacing: 5),
               ),
               TextFormField(
-                controller: _email,
+                controller: _password,
+                obscureText: true,
                 validator: (val) => val.isEmpty ? "Enter your password" : null,
               ),
               SizedBox(height: 60),
@@ -136,7 +141,7 @@ class _ProfileState extends State<Profile> {
                   height: 40,
                   child: RaisedButton(
                     color: Colors.green,
-                    onPressed: () {},
+                    onPressed: () => submitAction(context),
                     child: Text(
                       "Save",
                       style: TextStyle(color: Colors.white),
@@ -150,7 +155,7 @@ class _ProfileState extends State<Profile> {
                   minWidth: 40,
                   height: 40,
                   child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: () => deleteAccountDialog(),
                     color: Colors.green,
                     child: Text(
                       "Delete Account",
@@ -167,81 +172,38 @@ class _ProfileState extends State<Profile> {
         ),
       ),
     );
-    // final mediaQuery = MediaQuery.of(context);
+  }
 
-    // return Scaffold(
-    //     body: SingleChildScrollView(
-    //         child: Container(
-    //   height: mediaQuery.size.height - mediaQuery.padding.top,
-    //   width: mediaQuery.size.width,
-    //   padding: const EdgeInsets.all(30),
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     crossAxisAlignment: CrossAxisAlignment.center,
-    //     children: <Widget>[
-    //       SizedBox(height: mediaQuery.padding.top),
-    //       Container(
-    //         width: mediaQuery.size.width,
-    //         child: Text("Profile",
-    //             textAlign: TextAlign.left, style: TextStyle(fontSize: 30)),
-    //       ),
-    //       Spacer(flex: 10),
-    //       Form(
-    //         child: Column(
-    //           children: <Widget>[
-    //             // Email
-    //             Row(
-    //               children: <Widget>[
-    //                 Container(
-    //                   width: 100,
-    //                   child: Text("Email"),
-    //                 ),
-    //                 SizedBox(width: 15),
-    //                 Expanded(
-    //                   child: TextFormField(
-    //                     controller: _email,
-    //                     validator: (val) =>
-    //                         val.isEmpty ? "Enter your email" : null,
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
+  submitAction(BuildContext context) async {
+    if (_formKey.currentState.validate()) {
+      final emailValid =
+          await DatabaseService().checkEmail(_email.text);
 
-    //             // Password
-    //             Row(
-    //               children: <Widget>[
-    //                 Container(
-    //                   width: 100,
-    //                   child: Text("Password"),
-    //                 ),
-    //                 SizedBox(width: 15),
-    //                 Expanded(
-    //                   child: TextFormField(
-    //                     controller: _password,
-    //                     obscureText: true,
-    //                     validator: (val) =>
-    //                         val.isEmpty ? "Enter your password" : null,
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       SizedBox(height: 30),
-    //       ElevatedButton(
-    //         child: Text("Save"),
-    //         onPressed: () {},
-    //       ),
-    //       Spacer(flex: 10),
-    //       ElevatedButton(
-    //         child: Text("Delete Account"),
-    //         onPressed: () {},
-    //       ),
-    //       SizedBox(height: 15),
-    //       Container(child: Text("This application is powered by trefle.io")),
-    //     ],
-    //   ),
-    // )));
+      dynamic user = await DatabaseService()
+          .getUserData(FirebaseAuth.instance.currentUser.uid);
+
+      if (user.get(FieldPath(['email'])) != _email.text &&
+          !emailValid) {
+        setState(() {
+          error = 'Email is taken';
+        });
+      } else {
+        setState(() {
+          error = '';
+        });
+        Scaffold.of(context).hideCurrentSnackBar();
+        Scaffold.of(context).showSnackBar(
+          new SnackBar(
+            content: Text("Profile updated"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        updateUserData(
+          uid,
+          _email.text,
+          _password.text,
+        );
+      }
+    }
   }
 }
