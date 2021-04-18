@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -93,7 +94,8 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.green,
         title: Text(
           "Profile",
-          style: TextStyle(color: Colors.white),
+          style:
+              GoogleFonts.comfortaa(fontWeight: FontWeight.w700, fontSize: 20),
         ),
         actions: <Widget>[
           IconButton(
@@ -127,7 +129,10 @@ class _ProfileState extends State<Profile> {
                 Spacer(),
                 Text(
                   "EMAIL",
-                  style: TextStyle(color: Colors.black, letterSpacing: 5),
+                  style: TextStyle(
+                    color: Colors.black,
+                    letterSpacing: 5,
+                  ),
                 ),
                 TextFormField(
                   controller: _email,

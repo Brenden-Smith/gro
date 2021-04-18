@@ -5,6 +5,7 @@ import 'package:gro/screens/owned_plants.dart';
 import 'package:gro/screens/survey/name_question.dart';
 import '../screens.dart';
 import '../services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home';
@@ -83,9 +84,10 @@ class _HomeState extends State<Home> {
                     return InkWell(
                       onTap: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OwnedPlant(rid: plant.id)));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    OwnedPlant(rid: plant.id)));
                       },
                       child: Ink(
                         child: Column(
@@ -101,7 +103,8 @@ class _HomeState extends State<Home> {
                               child: img,
                             ),
                             SizedBox(height: 15),
-                            Text("${plant['plant_name']}"),
+                            Text("${plant['plant_name']}",
+                                style: GoogleFonts.openSans()),
                           ],
                         ),
                       ),
@@ -137,7 +140,11 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.green,
         appBar: AppBar(
           backgroundColor: Colors.green,
-          title: Text("My Plants"),
+          title: Text(
+            "  My Plants",
+            style: GoogleFonts.comfortaa(
+                fontWeight: FontWeight.w700, fontSize: 20),
+          ),
           elevation: 0,
         ),
         floatingActionButton: FloatingActionButton(

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../services.dart';
 import '../screens.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OwnedPlant extends StatefulWidget {
   static const routeName = '/owned-plant';
@@ -104,7 +105,11 @@ class _OwnedPlantState extends State<OwnedPlant> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Plant"),
+        title: Text(
+          "My Plant",
+          style:
+              GoogleFonts.comfortaa(fontWeight: FontWeight.w700, fontSize: 20),
+        ),
         backgroundColor: Colors.green,
         elevation: 0,
       ),
@@ -130,7 +135,11 @@ class _OwnedPlantState extends State<OwnedPlant> {
                       children: <Widget>[
                         img,
                         SizedBox(height: 15),
-                        FittedBox(child: Text("${name}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25))),
+                        FittedBox(
+                            child: Text("${name}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25))),
                         SizedBox(height: 5),
                         Text("${commonName}",
                             style: TextStyle(
@@ -183,9 +192,13 @@ class _OwnedPlantState extends State<OwnedPlant> {
               ),
               SizedBox(height: 30),
               Container(
-                width: mediaQuery.size.width,
-                child: Text("Journal Entries", style: TextStyle(fontSize: 30)),
-              ),
+                  width: mediaQuery.size.width,
+                  child: Text(
+                    "Journal Entries",
+                    style: GoogleFonts.raleway(
+                      fontSize: 30,
+                    ),
+                  )),
               SizedBox(height: 15),
               Container(
                   height: 350,
