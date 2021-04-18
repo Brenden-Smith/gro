@@ -1,124 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:gro/screens/question.dart';
+import 'package:gro/screens/survey/name_question.dart';
+import '../screens.dart';
 
 class Home extends StatefulWidget {
+  static const routeName = '/home';
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+
+  List plants = [1,2,3,4];
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+
+    final plantList = SingleChildScrollView(
+      child: Container(
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 30,
+            mainAxisSpacing: 30,
+          ),
+          itemCount: 4,
+          shrinkWrap: true,
+          itemBuilder: (BuildContext txt, index) {
+            return InkWell(
+              onTap: () {},
+              child: Ink(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: 120,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      )
+                    ),
+                    SizedBox(height: 15),
+                    Text("Plant $index"),
+                  ],
+                ),
+              ),
+            );
+          }
+        ),
+      ),
+    );
 
     final pageBody = Container(
       height: (mediaQuery.size.height - mediaQuery.padding.top),
       width: mediaQuery.size.width,
       padding: const EdgeInsets.all(30),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           SizedBox(height: mediaQuery.padding.top),
           Container(
-            child: Text(
-              "My Plants",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 50,
-              ),
-            ),
+            width: mediaQuery.size.width,
+            child: Text("My Plants", textAlign: TextAlign.left, style: TextStyle(fontSize: 30)),
           ),
-          Spacer(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        SizedBox(width: 50),
-                        Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(width: 60),
-                              Text("Hello"),
-                              SizedBox(width: 170),
-                              Text("Hello"),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 60),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        SizedBox(width: 50),
-                        Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(width: 60),
-                              Text("Hello"),
-                              SizedBox(width: 170),
-                              Text("Hello"),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-          Spacer(flex: 2),
-        ],
-      ),
+          Expanded(child: plantList),
+        ]
+      )
     );
 
     return Scaffold(
@@ -127,10 +75,7 @@ class _HomeState extends State<Home> {
             child: Icon(Icons.add),
             backgroundColor: Colors.green,
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Question()),
-              );
+              Navigator.of(context).pushNamed(PlantSearch.routeName);
             }));
   }
 }

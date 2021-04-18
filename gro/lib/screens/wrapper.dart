@@ -54,15 +54,9 @@ class _AppTabControllerState extends State<AppTabController> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static List<Widget> _widgetOptions = <Widget>[
+    Text("Index 0"),
     Home(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {
@@ -80,16 +74,16 @@ class _AppTabControllerState extends State<AppTabController> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: "Schedule",
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home 2",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home 3",
+            icon: Icon(Icons.person),
+            label: "Profile",
           ),
         ],
         currentIndex: _selectedIndex,
