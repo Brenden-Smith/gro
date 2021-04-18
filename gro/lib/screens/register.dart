@@ -31,69 +31,71 @@ class _RegisterState extends State<Register> {
         height: (mediaQuery.size.height - mediaQuery.padding.top),
         padding: EdgeInsets.all(25),
         width: mediaQuery.size.width,
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(height: mediaQuery.padding.top),
-                Stack(
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      Center(child: CircleAvatar(radius: 80, backgroundColor: Colors.green)),
-                      Center(child: Icon(Icons.eco, color: Colors.white, size: 80)),
-                    ],
-                  ),
-                SizedBox(height: 15),
-                Text("Gro", style: TextStyle(fontSize: 40)),
-                SizedBox(height: 15),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width:300,
-                        child:Padding(
-                          padding:const EdgeInsets.all(6.0),
-                        child: TextFormField(
-                          controller: _email,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Enter your email',
-                                labelText: 'Email'
-                            ),
-                            validator: (val) => val.isEmpty ? "This field is required" : null,
-                          )
+          child: SingleChildScrollView(
+                      child: Center(
+              child: Column(
+                children: [
+                  SizedBox(height: mediaQuery.padding.top),
+                  Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Center(child: CircleAvatar(radius: 80, backgroundColor: Colors.green)),
+                        Center(child: Icon(Icons.eco, color: Colors.white, size: 80)),
+                      ],
+                    ),
+                  SizedBox(height: 15),
+                  Text("Gro", style: TextStyle(fontSize: 40)),
+                  SizedBox(height: 15),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width:300,
+                          child:Padding(
+                            padding:const EdgeInsets.all(6.0),
+                          child: TextFormField(
+                            controller: _email,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Enter your email',
+                                  labelText: 'Email'
+                              ),
+                              validator: (val) => val.isEmpty ? "This field is required" : null,
+                            )
+                          ),
+
                         ),
+                        SizedBox(height: 5),
+                        Container(
+                          width:300,
+                          child:Padding(
+                            padding:const EdgeInsets.all(6.0),
 
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        width:300,
-                        child:Padding(
-                          padding:const EdgeInsets.all(6.0),
-
-                        child: TextFormField(
-                          controller: _password,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Enter your password',
-                                labelText: 'Password'
-                            ),
-                            validator: (val) => val.isEmpty ? "This field is required" : null,
-                          )
+                          child: TextFormField(
+                            controller: _password,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Enter your password',
+                                  labelText: 'Password'
+                              ),
+                              validator: (val) => val.isEmpty ? "This field is required" : null,
+                            )
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ),
-
-                SizedBox(height: 50),
-                
-                RaisedButton(
-                    color: Colors.green,
-                    child: Text("Create Account", style: TextStyle(color: Colors.white)),
-                    onPressed: () async => submitAction(),
+                      ],
+                    )
                   ),
-              ],
+
+                  SizedBox(height: 50),
+                  
+                  RaisedButton(
+                      color: Colors.green,
+                      child: Text("Create Account", style: TextStyle(color: Colors.white)),
+                      onPressed: () async => submitAction(),
+                    ),
+                ],
+              ),
             ),
           ),
         )
