@@ -41,30 +41,36 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
+    final appBar = new AppBar(
+      backgroundColor: Colors.green,
+      title: Text(
+        "My Plants",
+      ),
+      elevation: 0,
+    );
+
     final plantList = Container(
-      height: (mediaQuery.size.height - mediaQuery.padding.top),
-      padding: const EdgeInsets.only(bottom: 50),
+      height: (mediaQuery.size.height - mediaQuery.padding.top - appBar.preferredSize.height - 50),
       child: StreamBuilder(
           stream: plants,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Center(
-                child: Text("Error"),
-              );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: Text("Error"));
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
-            } else if (snapshot.connectionState == ConnectionState.active) {
+            } if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.data.docs.length == 0) {
                 return Center(child: Text("You do not have any plants."));
               }
               return GridView.builder(
+                  padding: EdgeInsets.all(30),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 30,
                     mainAxisSpacing: 30,
                   ),
                   itemCount: snapshot.data.docs.length,
-                  shrinkWrap: true,
                   itemBuilder: (BuildContext txt, index) {
                     Widget img;
                     DocumentSnapshot plant = snapshot.data.docs[index];
@@ -116,37 +122,26 @@ class _HomeState extends State<Home> {
           }),
     );
 
-    final pageBody = SingleChildScrollView(
-        child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              ),
-            ),
-            height: (mediaQuery.size.height - mediaQuery.padding.top),
-            width: mediaQuery.size.width,
-            padding: const EdgeInsets.all(30),
-            child: Column(children: <Widget>[
-              Container(
-                width: mediaQuery.size.width,
-              ),
-              Expanded(child: plantList),
-            ])));
-
     return Scaffold(
-        body: pageBody,
         backgroundColor: Colors.green,
-        appBar: AppBar(
-          backgroundColor: Colors.green,
-          centerTitle: true,
-          title: Text(
-            "  My Plants",
-            style: GoogleFonts.comfortaa(
-                fontWeight: FontWeight.w700, fontSize: 20),
+        appBar: appBar,
+        body: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
           ),
-          elevation: 0,
+          child: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  plantList,
+                ]
+              )
+            )
+          )
         ),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),

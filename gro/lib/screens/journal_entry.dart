@@ -61,14 +61,17 @@ class _JournalEntryViewState extends State<JournalEntryView> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.green,
-          title: Container(
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.date_range),
-                SizedBox(width: 7),
-                Text("${DateFormat.yMMMd().format(DateTime.parse(widget.date.toDate().toString()))}"),
-              ],
-            )
+          centerTitle: true,
+          title: Center(
+            child: Container(
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.date_range),
+                  SizedBox(width: 7),
+                  Text("${DateFormat.yMMMd().format(DateTime.parse(widget.date.toDate().toString()))}"),
+                ],
+              )
+            ),
           ),
           actions: <Widget>[
           IconButton(

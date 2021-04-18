@@ -94,8 +94,6 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.green,
         title: Text(
           "Profile",
-          style:
-              GoogleFonts.comfortaa(fontWeight: FontWeight.w700, fontSize: 20),
         ),
         actions: <Widget>[
           IconButton(

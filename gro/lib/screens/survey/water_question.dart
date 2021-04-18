@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gro/screens/survey/plant_search.dart';
+import 'package:flutter/services.dart';
+
 import '../../models.dart';
 import '../../services.dart';
 
@@ -78,6 +79,7 @@ class _WaterQuestionState extends State<WaterQuestion> {
                     hintText: "Days",
                   ),
                   validator: (val) => val.isEmpty ? 'This field is required' : null,
+                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                 ),
               ),
             ),

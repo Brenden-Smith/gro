@@ -82,7 +82,6 @@ class _PlantSearchState extends State<PlantSearch> {
       child: StreamBuilder<List<Plant>>(
         stream: queryResults,
         builder: (context, snapshot) {
-           // snapshot.hasData ? _build(snapshot.data) : Center(child: CircularProgressIndicator()), 
           if (snapshot.connectionState != ConnectionState.done) {
             return Center(child: CircularProgressIndicator());
           }
@@ -104,38 +103,46 @@ class _PlantSearchState extends State<PlantSearch> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
-        elevation: 0.0,
         backgroundColor: Colors.green,
         title: Text(
           "Compendium",
-          style: TextStyle(color: Colors.white),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 75,
-                padding: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 15),
-                child: TextField(
-                  controller: _query,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.search),
-                    hintText: "Search",
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 75,
+                  padding: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 15),
+                  child: TextField(
+                    controller: _query,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.search),
+                      hintText: "Search",
+                    ),
+                    onSubmitted: (text) {
+                      print("submitted!");
+                      queryResults = _searchPlant(text);
+                      setState(() {});
+                    }
                   ),
-                  onSubmitted: (text) {
-                    print("submitted!");
-                    queryResults = _searchPlant(text);
-                    setState(() {});
-                  }
                 ),
-              ),
-              buildResults,
-            ]
+                buildResults,
+              ]
+            )
           )
-        )
+        ),
       )
     );
   }

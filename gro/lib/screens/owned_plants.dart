@@ -17,9 +17,14 @@ class OwnedPlant extends StatefulWidget {
 }
 
 class _OwnedPlantState extends State<OwnedPlant> {
+
+  final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
+
   String plantId;
   DocumentSnapshot plant;
   int days;
+  int dtw;
+  Timestamp ts;
 
   Stream journal;
 
@@ -46,8 +51,8 @@ class _OwnedPlantState extends State<OwnedPlant> {
       name = plant.get(FieldPath(['plant_name']));
       commonName = plant.get(FieldPath(['plant_common']));
       imageUrl = plant.get(FieldPath(['image']));
-      Timestamp ts = plant.get(FieldPath(['lastWatered']));
-      int dtw = plant.get(FieldPath(['daysToWater']));
+      ts = plant.get(FieldPath(['lastWatered']));
+      dtw = plant.get(FieldPath(['daysToWater']));
       days = dtw - (DateTime.now().difference(DateTime.parse(ts.toDate().toString())).inDays);
     });
   }
@@ -97,9 +102,7 @@ class _OwnedPlantState extends State<OwnedPlant> {
     );
   }
 
-  waterPlantSnackbar() {
-      return SnackBar(content: Text("Yay! You watered ${name}!"));
-    }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -107,9 +110,9 @@ class _OwnedPlantState extends State<OwnedPlant> {
 
     Widget img;
 
-    if (imageUrl == null) {
+    if (imageUrl == "null") {
       img = CircleAvatar(
-          radius: 20,
+          radius: 50,
           backgroundColor: Colors.grey,
           child: Text((name == null) ? '' : name.substring(0, 1),
               style: TextStyle(color: Colors.white, fontSize: 40)));
@@ -117,9 +120,17 @@ class _OwnedPlantState extends State<OwnedPlant> {
       img = CircleAvatar(radius: 50, backgroundImage: NetworkImage(imageUrl));
     }
 
+    waterPlantSnackbar() {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Yay! You watered \"${name}\"'),
+        duration: const Duration(seconds: 1),
+      ));
+    }
+
     Widget journalList = Container(
-      height: mediaQuery.size.height - mediaQuery.padding.top,
-      padding: const EdgeInsets.only(bottom: 50),
+      height: 400,
+      width: mediaQuery.size.width,
+      padding: EdgeInsets.only(bottom: 50),
       child: StreamBuilder(
           stream: journal,
           builder: (context, snapshot) {
@@ -146,12 +157,10 @@ class _OwnedPlantState extends State<OwnedPlant> {
     );
 
     return Scaffold(
+      key: _scaffoldkey,
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           "${name}",
-          style:
-              GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
         ),
         actions: <Widget>[
           IconButton(
@@ -190,16 +199,23 @@ class _OwnedPlantState extends State<OwnedPlant> {
                         img,
                         SizedBox(height: 15),
                         FittedBox(
-                            child: Text("${name}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25))),
-                        SizedBox(height: 5),
-                        Text("${commonName}",
+                          fit: BoxFit.fitHeight,
+                          child: Text("${name}",
                             style: TextStyle(
-                                color: Colors.grey[500],
-                                fontStyle: FontStyle.italic,
-                                fontSize: 15)),
+                              fontWeight: FontWeight.bold
+                            )
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        FittedBox(
+                          fit: BoxFit.fitHeight,
+                          child: Text("${commonName}",
+                            style: TextStyle(
+                              color: Colors.grey[500],
+                              fontStyle: FontStyle.italic
+                            )
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -209,11 +225,14 @@ class _OwnedPlantState extends State<OwnedPlant> {
                       height: 170,
                       padding: EdgeInsets.only(left: 15),
                       child: Column(children: <Widget>[
-                        Text("Water this plant every ${plant.get(FieldPath(['daysToWater']))} days"),
-                        Text("That means you need to water it in ${days} days"),
+                        Spacer(flex: 2),
+                        Container(child: Text("Water this plant every ${dtw} days", textAlign: TextAlign.center)),
                         Spacer(),
+                        Container(child: Text("That means you need to water it in ${days} days", textAlign: TextAlign.center)),
+                        Spacer(flex: 2),
                         Center(
                           child: Row(children: <Widget>[
+                            Spacer(),
                             ButtonTheme(
                               minWidth: 80,
                               height: 40,
@@ -221,7 +240,10 @@ class _OwnedPlantState extends State<OwnedPlant> {
                                 onPressed: () {
                                   DatabaseService().waterPlant(plantId);
                                   waterPlantSnackbar();
-                                  setState(() {});
+                                  setState(() {
+                                    ts = plant.get(FieldPath(['lastWatered']));
+                                    days = dtw - (DateTime.now().difference(DateTime.parse(ts.toDate().toString())).inDays);
+                                  });
                                 },
                                 color: Colors.green,
                                 child: Text(
@@ -231,18 +253,18 @@ class _OwnedPlantState extends State<OwnedPlant> {
                               ),
                             ),
                             Spacer(),
-                            ButtonTheme(
-                              minWidth: 80,
-                              height: 40,
-                              child: RaisedButton(
-                                onPressed: () {},
-                                color: Colors.green,
-                                child: Text(
-                                  "Edit",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
+                            // ButtonTheme(
+                            //   minWidth: 80,
+                            //   height: 40,
+                            //   child: RaisedButton(
+                            //     onPressed: () {},
+                            //     color: Colors.green,
+                            //     child: Text(
+                            //       "Edit",
+                            //       style: TextStyle(color: Colors.white),
+                            //     ),
+                            //   ),
+                            // ),
                           ]),
                         ),
                       ])),

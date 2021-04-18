@@ -24,6 +24,13 @@ class _NameQuestionState extends State<NameQuestion> {
       height: (mediaQuery.size.height - mediaQuery.padding.top),
       width: mediaQuery.size.width,
       padding: const EdgeInsets.all(30),
+      decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
       child: Column(
         children: <Widget>[
           Container(
@@ -72,6 +79,7 @@ class _NameQuestionState extends State<NameQuestion> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.green,
       body: pageBody,
       appBar: AppBar(
         backgroundColor: Colors.green,

@@ -20,10 +20,18 @@ class _PlantDescState extends State<PlantDesc> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
         backgroundColor: Colors.green,
       ),
       body: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
         padding: EdgeInsets.all(30),
         child: Center(
           child: Column(

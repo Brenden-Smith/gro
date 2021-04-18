@@ -41,14 +41,17 @@ class _SignInState extends State<SignIn> {
           padding: EdgeInsets.all(25),
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Spacer(),
-                Container(
-                  height: 50,
-                  child: Icon(Icons.person, size: 50),
+                SizedBox(height: mediaQuery.padding.top),
+                Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Center(child: CircleAvatar(radius: 80, backgroundColor: Colors.green)),
+                    Center(child: Icon(Icons.eco, color: Colors.white, size: 80)),
+                  ],
                 ),
+                SizedBox(height: 15),
+                Text("Gro", style: TextStyle(fontSize: 40)),
                 SizedBox(height: 15),
                 Form(
                   key: _formKey,
@@ -56,41 +59,55 @@ class _SignInState extends State<SignIn> {
                     children: <Widget>[
                       
                       // Email
-                      TextFormField(
-                        controller: _email,
-                        decoration: const InputDecoration(
-                          labelText: "Email",
+                      Container(
+                        width:300,
+                        child:Padding(
+                          padding:const EdgeInsets.all(6.0),
+                        child: TextFormField(
+                          controller: _email,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter your email',
+                              labelText: 'Email'
+                            ),
+                            validator: (val) => val.isEmpty ? "This field is required" : null,
+                          )
                         ),
-                        validator: (value) {
-                          return (value == null ? "You must enter your email" : null);
-                        },
                       ),
+                      SizedBox(height: 5),
 
                       // Password
-                      TextFormField(
-                        controller: _password,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          labelText: "Password",
+                      Container(
+                        width:300,
+                        child:Padding(
+                          padding:const EdgeInsets.all(6.0),
+
+                        child: TextFormField(
+                          controller: _password,
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Enter your password',
+                                labelText: 'Password'
+                            ),
+                            validator: (val) => val.isEmpty ? "This field is required" : null,
+                          )
                         ),
-                        validator: (value) {
-                          return (value.isEmpty ? "You must enter your password" : null);
-                        },
-                      )
+                      ),
                     ]
                   )
                 ),
-                SizedBox(height: 30),
-                ElevatedButton(
-                  child: Text("Sign in"),
+                SizedBox(height: 50),
+                RaisedButton(
+                  color: Colors.green,
+                  child: Text("Sign in", style: TextStyle(color: Colors.white)),
                   onPressed: () => submitAction(),
                 ),
                 SizedBox(height: 5),
-                ElevatedButton(
-                  child: Text("Register"),
+                RaisedButton(
+                  color: Colors.green,
+                  child: Text("Register", style: TextStyle(color: Colors.white)),
                   onPressed: () => Navigator.of(context).pushNamed(Register.routeName),
                 ),
-                Spacer(),
               ]
             )
           )

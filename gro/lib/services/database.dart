@@ -81,7 +81,7 @@ class DatabaseService {
 
   // Water plant
   Future<void> waterPlant(String rid) {
-    return plants.doc(rid).update({'lastWatered': DateTime.now()});
+    return plants.doc(rid).set({'lastWatered': Timestamp.now()}).then((_) => print("Watered plant!"));
   }
 
   // Delete plant
