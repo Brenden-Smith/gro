@@ -4,10 +4,11 @@ import 'name_question.dart';
 
 class PlantDesc extends StatefulWidget {
   static const routeName = '/plant-desc';
+  bool isSurvey;
 
   Plant plant;
 
-  PlantDesc({ this.plant });
+  PlantDesc({ this.plant, this.isSurvey });
 
   @override
   _PlantDescState createState() => _PlantDescState();
@@ -33,7 +34,8 @@ class _PlantDescState extends State<PlantDesc> {
               SizedBox(height: 5),
               Text("${widget.plant.scientificName}", style: TextStyle(color: Colors.grey[500], fontStyle: FontStyle.italic, fontSize: 20)),
               Spacer(),
-              ElevatedButton(
+
+              widget.isSurvey ? ElevatedButton(
                 child: Text("Confirm"),
                 onPressed: () {
                   Navigator.push(
@@ -41,7 +43,8 @@ class _PlantDescState extends State<PlantDesc> {
                     MaterialPageRoute(builder: (context) => NameQuestion(entry: PlantEntry(plant: widget.plant))),
                   );
                 },
-              )
+              ) :
+              Container(),
             ],
           ),
         ),

@@ -144,7 +144,7 @@ class _HomeState extends State<Home> {
             child: Icon(Icons.add),
             backgroundColor: Colors.green,
             onPressed: () {
-              Navigator.of(context).pushNamed(PlantSearch.routeName);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PlantSearch(isSurvey: true)));
             }));
   }
 }
