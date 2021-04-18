@@ -25,8 +25,8 @@ class _WaterQuestionState extends State<WaterQuestion> {
   @override
   void initState() {
     super.initState();
-    // fetchUserID();
-    // fetchUserData();
+    fetchUserID();
+    fetchUserData();
   }
 
   fetchUserID() {
@@ -88,15 +88,15 @@ class _WaterQuestionState extends State<WaterQuestion> {
               onPressed: () async { 
                 if (_formKey.currentState.validate()) {
                   widget.entry.setDaysToWater(int.parse(_water.text));
-                  // DatabaseService()
-                  //     .createPlantEntry(
-                  //       DateTime.now().toString(),
-                  //       uid,
-                  //       email,
-                  //       widget.entry,
-                  //       DateTime.now(),
-                  //     )
-                  //     .whenComplete(() => print('Added to Firestore'));
+                  DatabaseService()
+                      .createPlantEntry(
+                        DateTime.now().toString(),
+                        uid,
+                        email,
+                        widget.entry,
+                        DateTime.now(),
+                      )
+                      .whenComplete(() => print('Added to Firestore'));
 
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 }

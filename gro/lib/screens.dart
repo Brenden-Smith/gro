@@ -6,3 +6,4 @@ export './screens/profile.dart';
 export 'screens/survey/plant_search.dart';
 export 'screens/survey/plant_description.dart';
 export 'screens/survey/name_question.dart';
+export 'screens/register.dart';

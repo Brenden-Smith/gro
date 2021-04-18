@@ -24,12 +24,13 @@ class Gro extends StatelessWidget {
     return MaterialApp(
       title: 'Gro',
       debugShowCheckedModeBanner: false,
-      home: AppTabController(),
+      home: Wrapper(),
       routes: {
         Home.routeName: (ctx) => Home(),
         NameQuestion.routeName: (ctx) => NameQuestion(),
         PlantSearch.routeName: (ctx) => PlantSearch(),
         PlantDesc.routeName: (ctx) => PlantDesc(),
+        Register.routeName: (ctx) => Register(),
         SignIn.routeName: (ctx) => SignIn(),
       },
       onUnknownRoute: (settings) {

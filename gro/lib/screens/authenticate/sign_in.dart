@@ -9,6 +9,7 @@ import '../../models.dart';
 
 import 'package:flutter/material.dart';
 import '../../services.dart';
+import '../../screens.dart';
 
 class SignIn extends StatefulWidget {
   static const routeName = '/sign-in';
@@ -84,6 +85,11 @@ class _SignInState extends State<SignIn> {
                   child: Text("Sign in"),
                   onPressed: () => submitAction(),
                 ),
+                SizedBox(height: 5),
+                ElevatedButton(
+                  child: Text("Register"),
+                  onPressed: () => Navigator.of(context).pushNamed(Register.routeName),
+                ),
                 Spacer(),
               ]
             )
@@ -112,6 +118,7 @@ class _SignInState extends State<SignIn> {
 
           print('retrieved user from login');
           print('email: ' + user['email']);
+          print('uid: ' + user['uid']);
         } else {
           setState(() {
             error = 'Incorrect email and/or password.';
