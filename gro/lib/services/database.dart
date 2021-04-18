@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../services.dart';
+import '../models.dart';
 
 class DatabaseService {
 
@@ -58,6 +59,22 @@ class DatabaseService {
   // Get user by email
   Future<QuerySnapshot> getUserByEmail(String email) async {
     return await users.where('email', isEqualTo: email).limit(1).get().catchError((err) => print("Failed to get user by email"));
+  }
+
+  // PLANT ENTRIES
+  final CollectionReference plants = FirebaseFirestore.instance.collection('plant-entries');
+
+  // Create plant entry
+  Future<void> createPlantEntry(String rid, String uid, String email, PlantEntry entry, DateTime date) async {
+    return await plants.doc(rid).set({
+      'uid': uid,
+      'email': email,
+      'date': date,
+      'image': entry.plant.image,
+      'plant_name': entry.name,
+      'plant_common': entry.plant.name,
+      'plant_science': entry.plant.scientificName,
+    });
   }
 
 }

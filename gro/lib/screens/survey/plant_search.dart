@@ -73,7 +73,7 @@ class _PlantSearchState extends State<PlantSearch> {
     }
 
     final buildResults = Container(
-      height: (mediaQuery.size.height - mediaQuery.padding.top),
+      height: (mediaQuery.size.height - mediaQuery.padding.top - 125),
       child: FutureBuilder<List<Plant>>(
         future: queryResults,
         builder: (context, snapshot) {
@@ -108,6 +108,7 @@ class _PlantSearchState extends State<PlantSearch> {
           child: Column(
             children: <Widget>[
               Container(
+                height: 75,
                 padding: EdgeInsets.only(top: 15, right: 30, left: 30, bottom: 15),
                 child: TextField(
                   controller: _query,
