@@ -76,5 +76,18 @@ class DatabaseService {
       'plant_science': entry.plant.scientificName,
     });
   }
+  
+  // Get user's plants
+  Future<Stream<QuerySnapshot>> getUsersPlants(String uid) async {
+    return plants.where('uid', isEqualTo: uid).snapshots();
+  }
+
+  getPlant(String rid) async {
+    try {
+      return await plants.doc(rid).get();
+    } catch (err) {
+      print(err.toString());
+    }
+  }
 
 }
