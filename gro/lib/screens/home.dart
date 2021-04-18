@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gro/screens/owned_plants.dart';
 import 'package:gro/screens/survey/name_question.dart';
 import '../screens.dart';
 
@@ -9,8 +10,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-  List plants = [1,2,3,4];
+  List plants = [1, 2, 3, 4];
 
   @override
   Widget build(BuildContext context) {
@@ -19,55 +19,57 @@ class _HomeState extends State<Home> {
     final plantList = SingleChildScrollView(
       child: Container(
         child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 30,
-            mainAxisSpacing: 30,
-          ),
-          itemCount: 4,
-          shrinkWrap: true,
-          itemBuilder: (BuildContext txt, index) {
-            return InkWell(
-              onTap: () {},
-              child: Ink(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      )
-                    ),
-                    SizedBox(height: 15),
-                    Text("Plant $index"),
-                  ],
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 30,
+              mainAxisSpacing: 30,
+            ),
+            itemCount: 4,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext txt, index) {
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OwnedPlant(),
+                      ));
+                },
+                child: Ink(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          height: 120,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          )),
+                      SizedBox(height: 15),
+                      Text("Plant $index"),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }
-        ),
+              );
+            }),
       ),
     );
 
     final pageBody = Container(
-      height: (mediaQuery.size.height - mediaQuery.padding.top),
-      width: mediaQuery.size.width,
-      padding: const EdgeInsets.all(30),
-      child: Column(
-        children: <Widget>[
+        height: (mediaQuery.size.height - mediaQuery.padding.top),
+        width: mediaQuery.size.width,
+        padding: const EdgeInsets.all(30),
+        child: Column(children: <Widget>[
           SizedBox(height: mediaQuery.padding.top),
           Container(
             width: mediaQuery.size.width,
-            child: Text("My Plants", textAlign: TextAlign.left, style: TextStyle(fontSize: 30)),
+            child: Text("My Plants",
+                textAlign: TextAlign.left, style: TextStyle(fontSize: 30)),
           ),
           Expanded(child: plantList),
-        ]
-      )
-    );
+        ]));
 
     return Scaffold(
         body: pageBody,
