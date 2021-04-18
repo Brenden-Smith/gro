@@ -40,4 +40,25 @@ class AuthService {
     }
   }
 
+  // Change email
+  void changeEmail(String email) async {
+    User user = _auth.currentUser;
+
+    user.updateEmail(email).then((_) {print("Changed email");}).catchError((error) {print('Failed to change email');});
+  }
+
+  // Change password
+  void changePassword(String password) async {
+    User user = _auth.currentUser;
+
+    user.updatePassword(password).then((_) {print("Changed password");}).catchError((error) {print('Failed to change password');});
+  }
+
+  // Delete user
+  Future deleteUser() {
+    User user = FirebaseAuth.instance.currentUser;
+    DatabaseService().deleteUser(user.uid);
+    return user.delete();
+  }
+
 }
