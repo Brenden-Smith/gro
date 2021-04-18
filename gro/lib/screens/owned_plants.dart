@@ -6,14 +6,18 @@ import 'package:flutter/material.dart';
 import '../services.dart';
 
 class OwnedPlant extends StatefulWidget {
+
   static const routeName = '/owned-plant';
+  String rid;
+
+  OwnedPlant({ this.rid });
   @override
   _OwnedPlantState createState() => _OwnedPlantState();
 }
 
 class _OwnedPlantState extends State<OwnedPlant> {
   String plantId;
-  dynamic plant;
+  DocumentSnapshot plant;
 
   Stream journal;
 
@@ -22,19 +26,27 @@ class _OwnedPlantState extends State<OwnedPlant> {
   String imageUrl;
   String uid;
 
-  @override
-  void didChangeDependencies() async {
-    plantId = ModalRoute.of(context).settings.arguments as String;
 
+  @override
+  void initState() {
+    super.initState();
+    print(widget.rid);
+    fetchUserJournal(uid, widget.rid);
+    setValues(widget.rid);
+  }
+
+  fetchPlant() {
+
+  }
+
+  setValues(String plantId) async {
     plant = await DatabaseService().getPlant(plantId);
-    fetchUserJournal(uid, plantId);
 
     setState(() {
       name = plant.get(FieldPath(['plant_name']));
       commonName = plant.get(FieldPath(['plant_common']));
       imageUrl = plant.get(FieldPath(['image']));
     });
-    super.didChangeDependencies();
   }
 
   fetchUserJournal(String uid, String plantId) async {
@@ -151,6 +163,8 @@ class _OwnedPlantState extends State<OwnedPlant> {
                 width: mediaQuery.size.width,
                 child: Text("Journal Entries", style: TextStyle(fontSize: 30)),
               ),
+              SizedBox(height: 15),
+              Container(height: 350, child: SingleChildScrollView(child: journalList)),
             ],
           ),
         ),
@@ -159,11 +173,10 @@ class _OwnedPlantState extends State<OwnedPlant> {
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => JournalPage()),
-          );
-        },
+          Navigator.push(context, MaterialPageRoute(builder: (context) => JournalPage(rid1: plantId))).then((value) {
+            fetchUserJournal(uid, plantId);
+          });
+        }
       ),
     );
   }

@@ -81,7 +81,11 @@ class _HomeState extends State<Home> {
                   }
                   return InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(OwnedPlant.routeName, arguments: plant.id);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OwnedPlant(rid: plant.id)),
+                        );
                     },
                     child: Ink(
                       child: Column(
