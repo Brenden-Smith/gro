@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +15,19 @@ class _OwnedPlantState extends State<OwnedPlant> {
   String plantId;
   dynamic plant;
 
+  Stream journal;
+
   String name;
   String commonName;
   String imageUrl;
-
+  String uid;
 
   @override
   void didChangeDependencies() async {
     plantId = ModalRoute.of(context).settings.arguments as String;
 
     plant = await DatabaseService().getPlant(plantId);
+    fetchUserJournal(uid, plantId);
 
     setState(() {
       name = plant.get(FieldPath(['plant_name']));
@@ -33,6 +37,18 @@ class _OwnedPlantState extends State<OwnedPlant> {
     super.didChangeDependencies();
   }
 
+  fetchUserJournal(String uid, String plantId) async {
+    await DatabaseService().getUsersJournal(uid, plantId).then((results) {
+      setState(() {
+        journal = results;
+      });
+    });
+  }
+
+  fetchUserID() {
+    uid = FirebaseAuth.instance.currentUser.uid;
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -40,33 +56,45 @@ class _OwnedPlantState extends State<OwnedPlant> {
 
     Widget img;
 
-    if (imageUrl == "null") {
+    if (imageUrl == null) {
       img = CircleAvatar(
           radius: 20,
           backgroundColor: Colors.grey,
-          child: Text(name.substring(0, 1),
+          child: Text((name==null) ? '' : name.substring(0, 1),
               style: TextStyle(color: Colors.white, fontSize: 40)));
     } else {
       img =
           CircleAvatar(radius: 50, backgroundImage: NetworkImage(imageUrl));
     }
 
-    // Widget journalList = Container (
-    //   height: mediaQuery.size.height - mediaQuery.padding.top,
-    //   padding: const EdgeInsets.only(bottom: 50),
-    //   child: StreamBuilder(
-    //     stream: journal,
-    //     builder: (context, snapshot) {
-    //       if (snapshot.hasError) {
-    //         return Center(child: Text("Error loading journal entries"));
-    //       } else if (snapshot.connectionState == ConnectionState.active) {
-    //         if (snapshot.data.docs.length == 0) {
-    //           return Center(child: Text("You do not have any journal entries"));
-    //         }
-    //       }
-    //     }
-    //   )
-    // )
+    Widget journalList = Container (
+      height: mediaQuery.size.height - mediaQuery.padding.top,
+      padding: const EdgeInsets.only(bottom: 50),
+      child: StreamBuilder(
+        stream: journal,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("Error loading journal entries"));
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.data.docs.length == 0) {
+              return Center(child: Text("You do not have any journal entries"));
+            }
+            return ListView.builder(
+              itemCount: snapshot.data.docs.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                DocumentSnapshot jr = snapshot.data.docs[index];
+                return JournalTile(context, jr);
+              }
+            );
+          } else {
+            return Text('');
+          }
+        } 
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
