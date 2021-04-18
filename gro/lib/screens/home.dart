@@ -140,6 +140,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.green,
         appBar: AppBar(
           backgroundColor: Colors.green,
+          centerTitle: true,
           title: Text(
             "  My Plants",
             style: GoogleFonts.comfortaa(

@@ -74,7 +74,13 @@ class DatabaseService {
       'plant_name': entry.name,
       'plant_common': entry.plant.name,
       'plant_science': entry.plant.scientificName,
+      'daysToWater': entry.daysToWater,
     });
+  }
+
+  // Delete plant
+  Future<void> deletePlant(String rid) {
+    return plants.doc(rid).delete().then((value) => print("Entry deleted")).catchError((err) => print("Faiiled to delete entry"));
   }
   
   // Get user's plants
@@ -99,6 +105,11 @@ class DatabaseService {
       'title': entry.title,
       'content': entry.content,
     });
+  }
+
+  // Delete journal entry
+  Future<void> deleteJournalEntry(String rid1, String rid2) {
+    return plants.doc(rid1).collection('journal').doc(rid2).delete().then((value) => print("Entry deleted")).catchError((err) => print("Faiiled to delete entry"));
   }
 
   // Get user's journal

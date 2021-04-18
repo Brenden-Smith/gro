@@ -59,6 +59,39 @@ class _OwnedPlantState extends State<OwnedPlant> {
     uid = FirebaseAuth.instance.currentUser.uid;
   }
 
+  deletePlantDialog() {
+    return showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Are you sure you would like to delete ${name}?',
+        ),
+        content: Text(
+          'This action is permanent',
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              'No',
+            ),
+            onPressed: () {
+              Navigator.of(ctx).pop(false);
+            },
+          ),
+          FlatButton(
+            child: Text(
+              'Yes',
+            ),
+            onPressed: () {
+              DatabaseService().deletePlant(widget.rid);
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -105,11 +138,23 @@ class _OwnedPlantState extends State<OwnedPlant> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          "My Plant",
+          "${name}",
           style:
-              GoogleFonts.comfortaa(fontWeight: FontWeight.w700, fontSize: 20),
+              GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 20),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              deletePlantDialog();
+            },
+          ),
+        ],
         backgroundColor: Colors.green,
         elevation: 0,
       ),
@@ -241,7 +286,9 @@ class _OwnedPlantState extends State<OwnedPlant> {
                   builder: (context) => JournalEntryView(
                       date: entry['date'],
                       title: entry['title'],
-                      content: entry['content'])));
+                      content: entry['content'],
+                      rid1: widget.rid,
+                      rid2: entry.id,)));
         },
         child: Row(
           children: <Widget>[
@@ -299,9 +346,6 @@ class _OwnedPlantState extends State<OwnedPlant> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 15),
-            )
           ],
         ),
       ),
